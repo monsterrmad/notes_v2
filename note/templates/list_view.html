@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load static %}
+    <div>
+        {% for object in object_list %}
+            {{ object.name }}
+        {% endfor %}
+    </div>
+{% endblock %}
