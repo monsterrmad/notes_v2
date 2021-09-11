@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load static %}
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h1 mb-0 text-gray-800">Browse Notes</h1>
+        </div>
+        <!-- Content Row -->
+        <div class="row">
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col mb-3">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Total notes:
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_notes }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col mb-3">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Public notes:
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_pub }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-share-alt-square fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col mb-3">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Users:
+                                </div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ total_users }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-users  fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if object_list %}
+            <div class="row">
+                <div class="col-lg-6">
+                    {% for note in object_list_even %}
+                        <a href="{{ note.get_absolute_url }}" style="text-decoration: inherit; color: inherit">
+                            <!-- Dropdown Card Example -->
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h2 class="m-0 font-weight-bold text-primary">{{ note.name }}
+                                        {% if note.favorite %}
+                                            <i class="fas fa-star"></i>
+                                        {% endif %}
+                                        {% if note.public %}
+                                            <i class="fas fa-share-alt"></i>
+                                        {% endif %}
+                                        {% if note.completed %}
+                                            <i class="fas fa-check"></i>
+                                        {% endif %}
+                                    </h2>
+                                    {% if note.user == user|slugify %}
+                                        <div class="dropdown no-arrow">
+                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                                 aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item"
+                                                   href="{{ note.get_absolute_url }}/edit">Edit</a>
+                                                <div class="dropdown-divider"></div>
+                                                <form action="{{ note.get_absolute_url }}/delete" method="post">
+                                                    {% csrf_token %}
+                                                    <input class="dropdown-item" type="submit" value="Delete"/>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    {{ note.body|safe }}
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+                <div class="col-lg-6">
+                    {% for note in object_list_odd %}
+                        <a href="{{ note.get_absolute_url }}" style="text-decoration: inherit; color: inherit">
+                            <!-- Dropdown Card Example -->
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h2 class="m-0 font-weight-bold text-primary">{{ note.name }}
+                                        {% if note.favorite %}
+                                            <i class="fas fa-star"></i>
+                                        {% endif %}
+                                        {% if note.public %}
+                                            <i class="fas fa-share-alt"></i>
+                                        {% endif %}
+                                        {% if note.completed %}
+                                            <i class="fas fa-check"></i>
+                                        {% endif %}
+                                    </h2>
+                                    {% if note.user == user|slugify %}
+                                        <div class="dropdown no-arrow">
+                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                                 aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item"
+                                                   href="{{ note.get_absolute_url }}/edit">Edit</a>
+                                                <div class="dropdown-divider"></div>
+                                                <form action="{{ note.get_absolute_url }}/delete" method="post">
+                                                    {% csrf_token %}
+                                                    <input class="dropdown-item" type="submit" value="Delete"/>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    {{ note.body|safe }}
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h3 class="m-0 font-weight-bold text-primary">Empty...</h3>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 35rem;"
+                             src="{% static 'img/no_notes.png' %}" alt="no notes">
+                    </div>
+                    <h5>Seems like you dont have any notes</h5>
+                    <a href="/notes/create"><h5>Create a new Note</h5></a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
