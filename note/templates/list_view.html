@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h1 mb-0 text-gray-800">Notes</h1>
+            <h1 class="h1 mb-0 text-gray-800">My Notes</h1>
         </div>
 
         <!-- Content Row -->
@@ -97,9 +97,18 @@
                             <!-- Dropdown Card Example -->
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
-                                <div
-                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h2 class="m-0 font-weight-bold text-primary">{{ note.name }}</h2>
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h2 class="m-0 font-weight-bold text-primary">{{ note.name }}
+                                        {% if note.favorite %}
+                                            <i class="fas fa-star"></i>
+                                        {% endif %}
+                                        {% if note.public %}
+                                            <i class="fas fa-share-alt"></i>
+                                        {% endif %}
+                                        {% if note.completed %}
+                                            <i class="fas fa-check"></i>
+                                        {% endif %}
+                                    </h2>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -107,13 +116,12 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                              aria-labelledby="dropdownMenuLink">
-                                            <a class="dropdown-item" href="#">Favorite</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Public</a>
-                                            <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="{{ note.get_absolute_url }}/edit">Edit</a>
                                             <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Delete</a>
+                                            <form action="{{ note.get_absolute_url }}/delete" method="post">
+                                                {% csrf_token %}
+                                                <input class="dropdown-item" type="submit" value="Delete"/>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -133,7 +141,17 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                         class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h2 class="m-0 font-weight-bold text-primary">{{ note.name }}</h2>
+                                    <h2 class="m-0 font-weight-bold text-primary">{{ note.name }}
+                                        {% if note.favorite %}
+                                            <i class="fas fa-star"></i>
+                                        {% endif %}
+                                        {% if note.public %}
+                                            <i class="fas fa-share-alt"></i>
+                                        {% endif %}
+                                        {% if note.completed %}
+                                            <i class="fas fa-check"></i>
+                                        {% endif %}
+                                    </h2>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -141,13 +159,12 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                              aria-labelledby="dropdownMenuLink">
-                                            <a class="dropdown-item" href="#">Favorite</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Public</a>
-                                            <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="{{ note.get_absolute_url }}/edit">Edit</a>
                                             <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Delete</a>
+                                            <form action="{{ note.get_absolute_url }}/delete" method="post">
+                                                {% csrf_token %}
+                                                <input class="dropdown-item" type="submit" value="Delete"/>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -158,6 +175,20 @@
                             </div>
                         </a>
                     {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h3 class="m-0 font-weight-bold text-primary">Empty...</h3>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 35rem;"
+                             src="{% static 'img/no_notes.png' %}" alt="no notes">
+                    </div>
+                    <h5>Seems like you dont have any notes</h5>
+                    <a href="/notes/create"><h5>Create a new Note</h5></a>
                 </div>
             </div>
         {% endif %}

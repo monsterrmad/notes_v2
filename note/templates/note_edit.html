@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load static %}
+    {{ form.media }}
+    <div class="container-fluid">
+        <div class="h1 mb-4">Create new note</div>
+        <form class="user" action="" method="POST">
+            {% csrf_token %}
+            <h2 class="h4 mt-3 mb-3">{{ form.name.label }}</h2>
+            {{ form.name }}
+            <hr>
+            <div class="d-flex">
+                <div class="m-2 p-1">
+                    {{ form.public.label }}
+                    {{ form.public }}
+                </div>
+                <div class="m-2 p-1">
+                    {{ form.favorite.label }}
+                    {{ form.favorite }}
+                </div>
+                <div class="m-2 p-1">
+                    {{ form.completed.label }}
+                    {{ form.completed }}
+                </div>
+            </div>
+            <hr>
+            <h2 class="h4 mt-3 mb-3">{{ form.body.label }}</h2>
+            {{ form.body }}
+            <hr>
+            <input type="submit" class="btn btn-success mt-2 text-white pr-5 pl-5 pt-2 pb-2" value="Post">
+        </form>
+    </div>
+{% endblock %}

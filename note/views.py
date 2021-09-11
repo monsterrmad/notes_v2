@@ -1,10 +1,11 @@
-from django.views.generic import ListView, DetailView, FormView
+from django.views.generic import ListView, DetailView, FormView, UpdateView, DeleteView
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.http.response import Http404
 
 from note.models import Note
-from note.forms import NoteCreateForm
+from note.forms import NoteEditForm
 
 
 class NoteListView(ListView):
@@ -16,12 +17,12 @@ class NoteListView(ListView):
         self.user = None
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(NoteListView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["total_notes"] = Note.objects.filter(user=self.user).count()
         context["total_pub"] = Note.objects.filter(user=self.user, public=True).count()
-        context["tasks"] = Note.objects.filter(user=self.user, competed=False).count()
+        context["tasks"] = Note.objects.filter(user=self.user, completed=False).count()
         try:
-            context["task_completion"] = int((context["tasks"] / context["total_notes"]) * 100) - 100
+            context["task_completion"] = 100 - int((context["tasks"] / context["total_notes"]) * 100)
         except ZeroDivisionError:
             context["task_completion"] = 0
 
@@ -49,8 +50,8 @@ class NoteDetailView(DetailView):
     template_name = 'note_detail.html'
 
     def get_object(self, queryset=None):
-        obj = super(NoteDetailView, self).get_object()
-        if obj.user == str(self.request.user):
+        obj = super().get_object()
+        if obj.user == str(self.request.user) or obj.public:
             return obj
         else:
             raise Http404
@@ -58,8 +59,8 @@ class NoteDetailView(DetailView):
 
 class NoteCreateView(FormView):
     model = Note
-    template_name = 'note_create.html'
-    form_class = NoteCreateForm
+    template_name = 'note_edit.html'
+    form_class = NoteEditForm
     success_url = '/notes'
 
     def post(self, request, *args, **kwargs):
@@ -74,3 +75,42 @@ class NoteCreateView(FormView):
         new_note.user = self.request.user
         new_note.save()
         return redirect('/notes')
+
+
+class NoteUpdateView(UpdateView):
+    model = Note
+    template_name = 'note_edit.html'
+    form_class = NoteEditForm
+    success_url = '/notes'
+
+    def get_object(self, *args, **kwargs):
+        obj = super().get_object(*args, **kwargs)
+        if not obj.user == str(self.request.user):
+            raise PermissionDenied
+        else:
+            return obj
+
+    def post(self, request, *args, **kwargs):
+        if self.request.user:
+            return super().post(self, request, *args, **kwargs)
+        else:
+            messages.error(request, "Login to create your notes")
+            return redirect("/login/")
+
+    def form_valid(self, form):
+        new_note = form.save(commit=False)
+        new_note.user = str(self.request.user)
+        new_note.save()
+        return redirect('/notes')
+
+
+class NoteDeleteView(DeleteView):
+    model = Note
+    success_url = '/notes'
+
+    def get_object(self, *args, **kwargs):
+        obj = super().get_object(*args, **kwargs)
+        if not obj.user == str(self.request.user):
+            raise PermissionDenied
+        else:
+            return obj

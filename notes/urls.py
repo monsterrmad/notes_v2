@@ -20,9 +20,12 @@ from django.conf.urls import include
 from user_auth import urls as auth_urls
 from note import urls as notes_urls
 
+from homepage.views import NoteHomePageView
+
 urlpatterns = [
     path('', include(auth_urls)),
     path('admin/', admin.site.urls),
     path('notes/', include(notes_urls)),
     path('tinymce/', include('tinymce.urls')),
+    path('', NoteHomePageView.as_view())
 ]

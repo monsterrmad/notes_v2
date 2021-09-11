@@ -4,10 +4,10 @@ from tinymce.widgets import TinyMCE
 from note.models import Note
 
 
-class NoteCreateForm(forms.ModelForm):
+class NoteEditForm(forms.ModelForm):
     class Meta:
         model = Note
-        fields = ['name', 'body']
+        fields = ['name', 'body', 'favorite', 'public', 'completed']
 
     name = forms.CharField(widget=forms.TextInput(
         attrs={

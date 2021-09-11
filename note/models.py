@@ -15,7 +15,7 @@ class Note(models.Model):
     public = models.BooleanField(default=False, blank=True)
     favorite = models.BooleanField(default=False, blank=True)
     views = models.IntegerField(default=0, blank=True)
-    competed = models.BooleanField(default=False, blank=True)
+    completed = models.BooleanField(default=False, blank=True)
 
     def get_absolute_url(self):
         return reverse('notes', kwargs={'pk': self.pk})

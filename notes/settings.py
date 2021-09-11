@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'tinymce',
 
     'user_auth',
-    'note'
+    'note',
+    'homepage'
 ]
 
 MIDDLEWARE = [
