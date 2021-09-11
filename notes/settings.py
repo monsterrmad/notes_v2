@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-&d-r*+9bjs^l1*3g2m=8d0-bs!h202@q-*h4#5w6r%^g%_8std
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["notes.zoloto.cx.ua"]
 
 # Application definition
 
@@ -121,7 +121,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'root/notes/static_files/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_files')
 STATICFILES_DIRS = [

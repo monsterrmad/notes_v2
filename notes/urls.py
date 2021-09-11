@@ -20,6 +20,9 @@ from django.conf.urls import include
 from user_auth import urls as auth_urls
 from note import urls as notes_urls
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 from homepage.views import NoteHomePageView
 
 urlpatterns = [
@@ -28,4 +31,4 @@ urlpatterns = [
     path('notes/', include(notes_urls)),
     path('tinymce/', include('tinymce.urls')),
     path('', NoteHomePageView.as_view())
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
