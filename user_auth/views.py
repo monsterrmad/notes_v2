@@ -10,12 +10,6 @@ class RegisterView(FormView):
     form_class = RegisterForm
     success_url = '/'
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-    def post(self, request, *args, **kwargs):
-        return super(RegisterView, self).post(request, *args, **kwargs)
-
     def form_valid(self, form):
         form.save()
         user = authenticate(
@@ -48,4 +42,4 @@ class LoginView(FormView):
     @staticmethod
     def logout_view(request):
         logout(request)
-        return redirect("/")
+        return redirect("/login/")

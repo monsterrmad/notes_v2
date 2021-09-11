@@ -23,5 +23,6 @@ from note import urls as notes_urls
 urlpatterns = [
     path('', include(auth_urls)),
     path('admin/', admin.site.urls),
-    path('notes/', include(notes_urls))
+    path('notes/', include(notes_urls)),
+    path('tinymce/', include('tinymce.urls')),
 ]
