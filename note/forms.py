@@ -11,7 +11,7 @@ class NoteEditForm(forms.ModelForm):
 
     name = forms.CharField(widget=forms.TextInput(
         attrs={
-            'class': 'form-control form-control-user',
+            'class': 'form-control',
             'label': "Title"
         }
     ))
