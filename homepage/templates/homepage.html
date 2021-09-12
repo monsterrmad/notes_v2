@@ -75,10 +75,59 @@
                 <div class="col-lg-6">
                     {# Even list rendering #}
                     {% for note in object_list_even %}
-                        <a href="{{ note.get_absolute_url }}" style="text-decoration: inherit; color: inherit">
-                            <!-- Note Card with Dropdown -->
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
+                        <!-- Note Card with Dropdown -->
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <a href="{{ note.get_absolute_url }}" style="text-decoration: inherit; color: inherit">
+                                    <h2 class="m-0 font-weight-bold text-primary">{{ note.name }}
+                                        {% if note.favorite %}
+                                            <i class="fas fa-star"></i>
+                                        {% endif %}
+                                        {% if note.public %}
+                                            <i class="fas fa-share-alt"></i>
+                                        {% endif %}
+                                        {% if note.completed %}
+                                            <i class="fas fa-check"></i>
+                                        {% endif %}
+                                    </h2>
+                                </a>
+                                {% if note.user == user|slugify %}
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                             aria-labelledby="dropdownMenuLink">
+                                            <a class="dropdown-item"
+                                               href="{{ note.get_absolute_url }}/edit">Edit</a>
+                                            <div class="dropdown-divider"></div>
+                                            <form action="{{ note.get_absolute_url }}/delete" method="post">
+                                                {% csrf_token %}
+                                                <input class="dropdown-item" type="submit" value="Delete"/>
+                                            </form>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <!-- Card Body -->
+                            <div class="card-body">
+                                {{ note.body|truncatechars_html:1200|safe }}
+                            </div>
+                            <div class="card-header py-3">
+                                <p class="m-0 font-weight-bold text-right text-primary"> {{ note.user }} </p>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+                <div class="col-lg-6">
+                    {% for note in object_list_odd %}
+                        <!-- Note Card with Dropdown -->
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <a href="{{ note.get_absolute_url }}" style="text-decoration: inherit; color: inherit">
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h2 class="m-0 font-weight-bold text-primary">{{ note.name }}
                                         {% if note.favorite %}
@@ -91,25 +140,25 @@
                                             <i class="fas fa-check"></i>
                                         {% endif %}
                                     </h2>
-                        </a>
-                        {% if note.user == user|slugify %}
-                            <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                     aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item"
-                                       href="{{ note.get_absolute_url }}/edit">Edit</a>
-                                    <div class="dropdown-divider"></div>
-                                    <form action="{{ note.get_absolute_url }}/delete" method="post">
-                                        {% csrf_token %}
-                                        <input class="dropdown-item" type="submit" value="Delete"/>
-                                    </form>
+                            </a>
+                            {% if note.user == user|slugify %}
+                                <div class="dropdown no-arrow">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                         aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item"
+                                           href="{{ note.get_absolute_url }}/edit">Edit</a>
+                                        <div class="dropdown-divider"></div>
+                                        <form action="{{ note.get_absolute_url }}/delete" method="post">
+                                            {% csrf_token %}
+                                            <input class="dropdown-item" type="submit" value="Delete"/>
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
-                        {% endif %}
+                            {% endif %}
                         </div>
                         <!-- Card Body -->
                         <div class="card-body">
@@ -121,55 +170,6 @@
                         </div>
 
                     {% endfor %}
-            </div>
-            <div class="col-lg-6">
-                {% for note in object_list_odd %}
-                    <a href="{{ note.get_absolute_url }}" style="text-decoration: inherit; color: inherit">
-                        <!-- Note Card with Dropdown -->
-                        <div class="card shadow mb-4">
-                            <!-- Card Header - Dropdown -->
-                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h2 class="m-0 font-weight-bold text-primary">{{ note.name }}
-                                    {% if note.favorite %}
-                                        <i class="fas fa-star"></i>
-                                    {% endif %}
-                                    {% if note.public %}
-                                        <i class="fas fa-share-alt"></i>
-                                    {% endif %}
-                                    {% if note.completed %}
-                                        <i class="fas fa-check"></i>
-                                    {% endif %}
-                                </h2>
-                    </a>
-                    {% if note.user == user|slugify %}
-                        <div class="dropdown no-arrow">
-                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                 aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item"
-                                   href="{{ note.get_absolute_url }}/edit">Edit</a>
-                                <div class="dropdown-divider"></div>
-                                <form action="{{ note.get_absolute_url }}/delete" method="post">
-                                    {% csrf_token %}
-                                    <input class="dropdown-item" type="submit" value="Delete"/>
-                                </form>
-                            </div>
-                        </div>
-                    {% endif %}
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        {{ note.body|truncatechars_html:1200|safe }}
-                    </div>
-                    <div class="card-header py-3">
-                        <p class="m-0 font-weight-bold text-right text-primary"> {{ note.user }} </p>
-                    </div>
-                    </div>
-
-                {% endfor %}
             </div>
             </div>
         {% else %}
