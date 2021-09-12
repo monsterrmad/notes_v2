@@ -2,13 +2,17 @@
 {% block content %}
     {% load static %}
     {{ form.media }}
+    <!-- note edit form template -->
     <div class="container-fluid">
+        <!-- Form title -->
         <div class="h1 mb-4">Create new note</div>
         <form class="user" action="" method="POST">
             {% csrf_token %}
             <h2 class="h4 mt-3 mb-3">{{ form.name.label }}</h2>
+            <!-- Form title input -->
             {{ form.name }}
             <hr>
+            <!-- Form checkboxes inputs -->
             <div class="d-flex">
                 <div class="m-2 p-1">
                     {{ form.public.label }}
@@ -24,9 +28,11 @@
                 </div>
             </div>
             <hr>
+            <!-- Form body input with tinyMCE text editor -->
             <h2 class="h4 mt-3 mb-3">{{ form.body.label }}</h2>
             {{ form.body }}
             <hr>
+            <!-- Post button -->
             <input type="submit" class="btn btn-success mt-2 text-white pr-5 pl-5 pt-2 pb-2" value="Post">
         </form>
     </div>

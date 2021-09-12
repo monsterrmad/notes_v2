@@ -1,7 +1,7 @@
 {% extends 'bare_base.html' %}
 {% block content %}
     {% load static %}
-
+    <!-- Register template -->
     <div class="container">
         <div class="card shadow-lg mt-5">
             <div class="card-body p-0">
@@ -13,6 +13,7 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
+                            <!-- Register Form -->
                             <form class="user" action="" method="POST">
                                 {% csrf_token %}
                                 <div class="form-group row">
@@ -46,6 +47,7 @@
             </div>
 
             {% if form.errors %}
+                <!-- Error message window -->
                 <div class="card-body">
                     {% for field, errors in form.errors.items %}
                         {% for error in errors %}

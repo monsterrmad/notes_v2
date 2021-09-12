@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     {% load static %}
+    <!-- note list view template -->
     <div class="container-fluid">
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -8,7 +9,7 @@
         </div>
         <!-- Content Row -->
         <div class="row">
-            <!-- Earnings (Monthly) Card Example -->
+            <!-- Total notes Card -->
             <div class="col mb-3">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
@@ -27,7 +28,7 @@
                 </div>
             </div>
 
-            <!-- Earnings (Monthly) Card Example -->
+            <!-- Total public notes Card -->
             <div class="col mb-3">
                 <div class="card border-left-success shadow h-100 py-2">
                     <div class="card-body">
@@ -46,7 +47,7 @@
                 </div>
             </div>
 
-            <!-- Earnings (Monthly) Card Example -->
+            <!-- Total users Card -->
             <div class="col mb-3">
                 <div class="card border-left-info shadow h-100 py-2">
                     <div class="card-body">
@@ -68,12 +69,14 @@
                 </div>
             </div>
         </div>
+
         {% if object_list %}
             <div class="row">
                 <div class="col-lg-6">
+                    {# Even list rendering #}
                     {% for note in object_list_even %}
                         <a href="{{ note.get_absolute_url }}" style="text-decoration: inherit; color: inherit">
-                            <!-- Dropdown Card Example -->
+                            <!-- Note Card with Dropdown -->
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -118,7 +121,7 @@
                 <div class="col-lg-6">
                     {% for note in object_list_odd %}
                         <a href="{{ note.get_absolute_url }}" style="text-decoration: inherit; color: inherit">
-                            <!-- Dropdown Card Example -->
+                            <!-- Note Card with Dropdown -->
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
@@ -163,6 +166,7 @@
                 </div>
             </div>
         {% else %}
+            <!-- No card rendering view -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h3 class="m-0 font-weight-bold text-primary">Empty...</h3>
@@ -172,7 +176,7 @@
                         <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 35rem;"
                              src="{% static 'img/no_notes.png' %}" alt="no notes">
                     </div>
-                    <h5>Seems like you dont have any notes</h5>
+                    <h5>Seems like no notes were shared by this point</h5>
                     <a href="/notes/create"><h5>Create a new Note</h5></a>
                 </div>
             </div>

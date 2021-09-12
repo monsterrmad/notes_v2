@@ -26,9 +26,19 @@ from django.conf.urls.static import static
 from homepage.views import NoteHomePageView
 
 urlpatterns = [
+    # to authentication (login and register pages)
     path('', include(auth_urls)),
+
+    # admin url
     path('admin/', admin.site.urls),
+
+    # notes url
     path('notes/', include(notes_urls)),
+
+    # TinyMCE text editor
     path('tinymce/', include('tinymce.urls')),
-    path('', NoteHomePageView.as_view())
+
+    # Homepage url
+    path('', NoteHomePageView.as_view()),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
