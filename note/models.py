@@ -22,12 +22,3 @@ class Note(models.Model):
 
     def set_date_edited(self):
         self.date_edited = timezone.now()
-
-    def get_limited_body(self):
-        if len(self.body) < 1600:
-            return self.body
-        else:
-            return f"{self.body[:1597]}..."
-
-    def inc_views(self):
-        self.views += 1

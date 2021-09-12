@@ -127,7 +127,7 @@
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    {{ note.body|safe }}
+                                    {{ note.body|truncatechars_html:1200|safe }}
                                 </div>
                             </div>
                         </a>
@@ -170,7 +170,7 @@
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    {{ note.body|safe }}
+                                    {{ note.body|truncatechars_html:1200|safe }}
                                 </div>
                             </div>
                         </a>
