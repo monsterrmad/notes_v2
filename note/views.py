@@ -96,6 +96,8 @@ class NoteDetailView(DetailView):
     Or current user is an author
     If note is not accessible redirects to 404 page
     """
+    model = Note
+    template_name = "note_detail.html"
 
     def get_object(self, queryset=None):
         obj = super().get_object()
