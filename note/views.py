@@ -63,11 +63,11 @@ class NoteCreateView(FormView):
     form_class = NoteEditForm
     success_url = '/notes'
 
-    def post(self, request, *args, **kwargs):
-        if self.request.user:
-            return super(NoteCreateView, self).post(self, request, *args, **kwargs)
+    def get(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return super().get(self.request, args, kwargs)
         else:
-            messages.error(request, "Login to create your notes")
+            messages.error(self.request, "Login to create your notes")
             return redirect("/login/")
 
     def form_valid(self, form):
