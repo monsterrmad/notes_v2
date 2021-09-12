@@ -114,6 +114,9 @@
                                 <div class="card-body">
                                     {{ note.body|truncatechars_html:1200|safe }}
                                 </div>
+                                <div class="card-header py-3">
+                                    <p class="m-0 font-weight-bold text-right text-primary"> {{ note.user }} </p>
+                                </div>
                             </div>
                         </a>
                     {% endfor %}
@@ -159,6 +162,9 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     {{ note.body|truncatechars_html:1200|safe }}
+                                </div>
+                                <div class="card-header py-3">
+                                    <p class="m-0 font-weight-bold text-right text-primary"> {{ note.user }} </p>
                                 </div>
                             </div>
                         </a>

@@ -33,7 +33,6 @@ class NoteListView(ListView):
             first half is populated by the object_list_odd notes list
             second - object_list_even notes list
             ¯\_(ツ)_/¯
-
         :param object_list:
         :param kwargs:
         :return:
