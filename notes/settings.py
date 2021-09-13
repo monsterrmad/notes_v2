@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-&d-r*+9bjs^l1*3g2m=8d0-bs!h202@q-*h4#5w6r%^g%_8std
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["notes.zoloto.cx.ua"]
+ALLOWED_HOSTS = ["notes.zoloto.cx.ua", '127.0.0.1']
 
 # Application definition
 
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
 
     'user_auth',
     'note',
-    'homepage'
+    'homepage',
 ]
 
 MIDDLEWARE = [

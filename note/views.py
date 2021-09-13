@@ -15,6 +15,7 @@ class NoteListView(ListView):
     """
     model = Note
     template_name = "list_view.html"
+    paginate_by = 16
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -97,6 +98,11 @@ class NoteDetailView(DetailView):
     """
     model = Note
     template_name = "note_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["user_liked"] = self.get_object().get_user_liked(str(self.request.user))
+        return context
 
     def get_object(self, queryset=None):
         obj = super().get_object()
@@ -199,10 +205,35 @@ class NoteUpdateView(UpdateView):
         :param form:
         :return:
         """
-        new_note = form.save(commit=False)
-        new_note.user = str(self.request.user)
-        new_note.save()
-        return redirect("/notes")
+        note = form.save(commit=False)
+        note.user = str(self.request.user)
+        note.set_date_edited()
+        note.save()
+        return redirect(self.success_url)
+
+
+class NoteLikeUpdateView(UpdateView):
+    model = Note
+    fields = ["liked_users"]
+
+    def post(self, *args, **kwargs):
+        """
+        Get Override method
+        Main purpose to allow note creation only to an authenticated user
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        # if user is logged returns super method
+        if self.request.user.is_authenticated:
+            note = self.get_object()
+            note.change_like_user(str(self.request.user))
+            note.save()
+            return redirect("/")
+        # else redirects to a login page with a corresponding message
+        else:
+            messages.error(self.request, "Login to like notes")
+            return redirect("/login/")
 
 
 class NoteDeleteView(DeleteView):

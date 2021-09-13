@@ -6,8 +6,9 @@ from django.contrib.auth.models import User
 
 class NoteHomePageView(ListView):
     model = Note
-    template_name = 'homepage.html'
-    queryset = Note.objects.filter(public=True).order_by('date_edited').reverse()
+    template_name = "homepage.html"
+    paginate_by = 16
+    queryset = Note.objects.filter(public=True).order_by("date_edited").reverse()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -45,6 +46,7 @@ class NoteHomePageView(ListView):
         context["object_list_odd"] = []
         context["object_list_even"] = []
         for i, note in enumerate(context["note_list"]):
+            note.current_user_liked = note.get_user_liked(str(self.request.user))
             if i % 2 != 0:
                 context["object_list_odd"].append(note)
             else:

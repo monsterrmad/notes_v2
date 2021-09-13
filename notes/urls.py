@@ -25,6 +25,7 @@ from django.conf.urls.static import static
 
 from homepage.views import NoteHomePageView
 
+
 urlpatterns = [
 
     # to authentication (login and register pages)

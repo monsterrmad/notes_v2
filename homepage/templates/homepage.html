@@ -105,9 +105,41 @@
                             <div class="card-body">
                                 {{ note.body|truncatechars_html:1200|safe }}
                             </div>
-                            <div class="card-header py-3">
-                                <p class="m-0 font-weight-bold text-right text-primary"> {{ note.user }} </p>
+                            <div class="card-header py-3 d-flex justify-content-between">
+                                <div class="d-flex" id="like-count-{{ note.pk }}">
+                                    <div id="like-{{ note.pk }}" class="btn btn-primary btn-circle
+                            {% if not user.is_authenticated %}
+                                disabled
+                            {% endif %}">
+                                        {% if note.current_user_liked %}
+                                            <i class="fas fa-heart"></i>
+                                        {% else %}
+                                            <i class="far fa-heart"></i>
+                                        {% endif %}
+                                    </div>
+                                    <p class="text-secondary mb-auto mt-auto ml-2"> {{ note.count_likes }}</p>
+                                </div>
+                                <p class="mt-auto mb-auto font-weight-bold text-primary"> {{ note.user }} </p>
                             </div>
+                            <!-- Like button -->
+                            {% if user.is_authenticated %}
+                                <script type="text/javascript">
+                                    $(document).ready(function (event) {
+                                        $(document).on("click", "#like-{{ note.pk }}", function (event) {
+                                            event.preventDefault();
+                                            let post_id = $(this).attr("value");
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "{{ note.get_absolute_url }}/like",
+                                                data: {"id": post_id, "csrfmiddlewaretoken": "{{csrf_token}}"},
+                                                success: function (data) {
+                                                    $("#like-count-{{ note.pk }}").load(location.href + " #like-count-{{ note.pk }}");
+                                                }
+                                            });
+                                        });
+                                    });
+                                </script>
+                            {% endif %}
                         </div>
 
                     {% endfor %}
@@ -144,9 +176,41 @@
                         <div class="card-body">
                             {{ note.body|truncatechars_html:1200|safe }}
                         </div>
-                        <div class="card-header py-3">
-                            <p class="m-0 font-weight-bold text-right text-primary"> {{ note.user }} </p>
+                        <div class="card-header py-3 d-flex justify-content-between">
+                            <div class="d-flex" id="like-count-{{ note.pk }}">
+                                <div id="like-{{ note.pk }}" class="btn btn-primary btn-circle
+                            {% if not user.is_authenticated %}
+                                disabled
+                            {% endif %}">
+                                    {% if note.current_user_liked %}
+                                        <i class="fas fa-heart"></i>
+                                    {% else %}
+                                        <i class="far fa-heart"></i>
+                                    {% endif %}
+                                </div>
+                                <p class="text-secondary mb-auto mt-auto ml-2"> {{ note.count_likes }}</p>
+                            </div>
+                            <p class="mt-auto mb-auto font-weight-bold text-primary"> {{ note.user }} </p>
                         </div>
+                        <!-- Like button -->
+                        {% if user.is_authenticated %}
+                            <script type="text/javascript">
+                                $(document).ready(function (event) {
+                                    $(document).on("click", "#like-{{ note.pk }}", function (event) {
+                                        event.preventDefault();
+                                        let post_id = $(this).attr("value");
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "{{ note.get_absolute_url }}/like",
+                                            data: {"id": post_id, "csrfmiddlewaretoken": "{{csrf_token}}"},
+                                            success: function (data) {
+                                                $("#like-count-{{ note.pk }}").load(location.href + " #like-count-{{ note.pk }}");
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+                        {% endif %}
                         </div>
 
                     {% endfor %}
@@ -168,5 +232,35 @@
                 </div>
             </div>
         {% endif %}
+
+    <!-- Pagination -->
+    <nav class="d-flex justify-content-center m-4">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">
+                        &laquo;&laquo;
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                        &laquo;
+                    </a>
+                </li>
+            {% endif %}
+            <li class="page-item disabled">
+                <p class="page-link"> {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</p>
+            </li>
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;&raquo;</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
     </div>
+
 {% endblock %}

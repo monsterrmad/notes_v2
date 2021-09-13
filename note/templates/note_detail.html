@@ -12,7 +12,7 @@
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     Last Edited:
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ object.date_created }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ note.date_created }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -31,7 +31,7 @@
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                     Completed:
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ object.completed }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ note.completed }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-check-circle fa-2x text-gray-300"></i>
@@ -42,24 +42,24 @@
             </div>
         </div>
         <!-- Card with Dropdown -->
-        <div class="card shadow mb-4">
+        <div class="card shadow mb-4" id="note-{{ note.pk }}">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                {% if object.user == user|slugify %}
-                    <a href="{{ object.get_absolute_url }}/edit" style="text-decoration: inherit; color: inherit">
+                {% if note.user == user|slugify %}
+                    <a href="{{ note.get_absolute_url }}/edit" style="text-decoration: inherit; color: inherit">
                 {% endif %}
-                <h2 class="m-0 font-weight-bold text-primary">{{ object.name }}
-                    {% if object.favorite %}
+                <h2 class="m-0 font-weight-bold text-primary">{{ note.name }}
+                    {% if note.favorite %}
                         <i class="fas fa-star"></i>
                     {% endif %}
-                    {% if object.public %}
+                    {% if note.public %}
                         <i class="fas fa-share-alt"></i>
                     {% endif %}
-                    {% if object.completed %}
+                    {% if note.completed %}
                         <i class="fas fa-check"></i>
                     {% endif %}
                 </h2>
-                {% if object.user == user|slugify %}
+                {% if note.user == user|slugify %}
                     </a>
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -68,9 +68,9 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                              aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="{{ object.get_absolute_url }}/edit">Edit</a>
+                            <a class="dropdown-item" href="{{ note.get_absolute_url }}/edit">Edit</a>
                             <div class="dropdown-divider"></div>
-                            <form action="{{ object.get_absolute_url }}/delete" method="post">
+                            <form action="{{ note.get_absolute_url }}/delete" method="post">
                                 {% csrf_token %}
                                 <input class="dropdown-item" type="submit" value="Delete"/>
                             </form>
@@ -80,11 +80,44 @@
             </div>
             <!-- Card Body -->
             <div class="card-body">
-                {{ object.body|safe }}
+                {{ note.body|safe }}
             </div>
-            <div class="card-header py-3">
-                <p class="m-0 font-weight-bold text-right text-primary"> {{ note.user }} </p>
+            <div class="card-header py-3 d-flex justify-content-between">
+                <div class="d-flex" id="like-count-{{ note.pk }}">
+                    <div id="like" class="btn btn-primary btn-circle
+                            {% if not user.is_authenticated %}
+                                disabled
+                            {% endif %}
+                        ">
+                        {% if user_liked %}
+                            <i class="fas fa-heart"></i>
+                        {% else %}
+                            <i class="far fa-heart"></i>
+                        {% endif %}
+                    </div>
+                    <p class="text-secondary mb-auto mt-auto ml-2"> {{ note.count_likes }}</p>
+                </div>
+                <p class="mt-auto mb-auto font-weight-bold text-primary"> {{ note.user }} </p>
             </div>
         </div>
     </div>
+    {% if user.is_authenticated %}
+        <!-- Like button -->
+        <script type="text/javascript">
+            $(document).ready(function (event) {
+                $(document).on("click", "#like", function (event) {
+                    event.preventDefault();
+                    let post_id = $(this).attr("value");
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ note.get_absolute_url }}/like",
+                        data: {"id": post_id, "csrfmiddlewaretoken": "{{csrf_token}}"},
+                        success: function (data) {
+                            $("#like-count-{{ note.pk }}").load(location.href + " #like-count-{{ note.pk }}");
+                        }
+                    });
+                });
+            });
+        </script>
+    {% endif %}
 {% endblock %}
