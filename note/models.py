@@ -27,12 +27,13 @@ class Note(models.Model):
     body = HTMLField(null=True, blank=True)
 
     date_created = models.DateTimeField(auto_now=True, blank=True)
-    date_edited = models.DateTimeField(blank=True)
+    date_edited = models.DateTimeField(blank=True, default=timezone.now())
     public = models.BooleanField(default=False, blank=True)
     favorite = models.BooleanField(default=False, blank=True)
     views = models.IntegerField(default=0, blank=True)
     completed = models.BooleanField(default=False, blank=True)
     liked_users = models.TextField(default="")
+    likes = models.IntegerField(default=0)
 
     @property
     def get_absolute_url(self):
@@ -57,6 +58,7 @@ class Note(models.Model):
         else:
             liked_users_list.append(user)
         self.liked_users = " ".join(liked_users_list)
+        self.likes = self.count_likes()
 
     def get_user_liked(self, user):
         liked_users_list = self.liked_users.split(" ")
@@ -66,4 +68,4 @@ class Note(models.Model):
             return False
 
     def count_likes(self):
-        return len(self.liked_users.split(" ")) - 1
+        return self.liked_users.count(" ")

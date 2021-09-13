@@ -8,11 +8,19 @@ class NoteHomePageView(ListView):
     model = Note
     template_name = "homepage.html"
     paginate_by = 16
-    queryset = Note.objects.filter(public=True).order_by("date_edited").reverse()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.user = None
+
+    def get_queryset(self):
+        query_set = Note.objects.filter(public=True)
+        if self.request.GET.get("sort") == "date":
+            query_set = query_set.order_by("date_edited").reverse()
+        else:
+            query_set = query_set.order_by("likes").reverse()
+
+        return query_set
 
     def get_context_data(self, *, object_list=None, **kwargs):
         """

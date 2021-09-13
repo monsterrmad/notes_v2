@@ -4,8 +4,21 @@
     <!-- note list view template -->
     <div class="container-fluid">
         <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
             <h1 class="h1 mb-0 text-gray-800">Browse Notes</h1>
+            <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v fa-2x fa-fw text-gray-400"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                     aria-labelledby="dropdownMenuLink">
+                    <div class="dropdown-header"><h6>Sort By:</h6></div>
+                    <a class="dropdown-item" href="/"><h5>Most Liked</h5></a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/?sort=date"><h5>New</h5></a>
+                </div>
+            </div>
         </div>
         <!-- Content Row -->
         <div class="row">
