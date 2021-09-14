@@ -5,6 +5,12 @@ from django.contrib.auth.models import User
 
 
 class NoteHomePageView(ListView):
+    """
+    Note list view for the public notes page
+    Uses pagination
+    Notes can be sorted by likes and creation time
+    For proper pagination stores page url params for the template
+    """
     model = Note
     template_name = "homepage.html"
     paginate_by = 16
@@ -12,11 +18,17 @@ class NoteHomePageView(ListView):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.user = None
+        self.page_url = ""
 
     def get_queryset(self):
+        """
+        For different sorting uses url params and sets corresponding query_set
+        :return:
+        """
         query_set = Note.objects.filter(public=True)
         if self.request.GET.get("sort") == "date":
             query_set = query_set.order_by("date_edited").reverse()
+            self.page_url = "&sort=date"
         else:
             query_set = query_set.order_by("likes").reverse()
 
@@ -29,6 +41,7 @@ class NoteHomePageView(ListView):
             total_notes to show how many notes was created by this point
             total_pub to show how many note are shared (made public)
             total_users to show how many users registered
+            page_url to store page url to paginate properly
 
             current template divides a view into two halves
             first half is populated by object_list_odd notes list
@@ -40,6 +53,9 @@ class NoteHomePageView(ListView):
         :return:
         """
         context = super().get_context_data(**kwargs)
+
+        # set page url
+        context["page_url"] = self.page_url
 
         # database query to count all created notes
         context["total_notes"] = Note.objects.all().count()
