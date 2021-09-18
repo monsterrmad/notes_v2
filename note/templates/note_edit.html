@@ -11,11 +11,12 @@
             tinymce.init({
                 selector: "textarea",
                 menubar: true,
-                content_style: 'img {max-width: 100%;}',
+                content_style: "img {max-width: 100%;}",
                 plugins: [
                     "autoresize link advcode image table"
                 ],
-                toolbar: "undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code",
+                toolbar: "undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright " +
+                    "alignjustify | bullist numlist outdent indent | link image code",
             });
         </script>
         <form class="user" action="" method="POST">

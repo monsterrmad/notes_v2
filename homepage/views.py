@@ -13,7 +13,7 @@ class NoteHomePageView(ListView):
     """
     model = Note
     template_name = "homepage.html"
-    paginate_by = 16
+    paginate_by = 25
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
