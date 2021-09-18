@@ -84,7 +84,7 @@
             </div>
             <div class="card-header py-3 d-flex justify-content-between">
                 <div class="d-flex" id="like-count-{{ note.pk }}">
-                    <div id="like-{{ note.pk }}" class="like-btn btn btn-primary btn-circle
+                    <div id="like-{{ note.pk }}" class="heart like-btn btn btn-primary btn-circle
                             {% if not user.is_authenticated %}
                                 disabled
                             {% endif %}
@@ -106,18 +106,18 @@
     <!-- Like button -->
     {% if user.is_authenticated %}
         <script type="text/javascript">
-            $(document).ready(function (event) {
-                $(document).on("click", "#like-{{ note.pk }}", function (event) {
-                    event.preventDefault();
-                    let post_id = $(this).attr("value");
-                    $.ajax({
-                        type: "POST",
-                        url: "{{ note.get_absolute_url }}/like",
-                        data: {"id": post_id, "csrfmiddlewaretoken": "{{csrf_token}}"},
-                        success: function (data) {
-                            $("#like-count-{{ note.pk }}").load(location.href + " #like-count-{{ note.pk }}");
-                        }
-                    });
+            $(".like-btn").click(function (event) {
+                event.preventDefault();
+                let elementId = this.id;
+                let cardId = elementId.split("-")[1];
+                $.ajax({
+                    type: "POST",
+                    url: "/notes/" + cardId + "/like",
+                    data: {"id": cardId, "csrfmiddlewaretoken": "{{csrf_token}}"},
+                    success: function (data) {
+                        $("#card-liked-" + cardId).replaceWith($(data).find("#card-liked-" + cardId)).html();
+                        $("#like-" + cardId).children().replaceWith($(data).find("#like-" + cardId).children());
+                    }
                 });
             });
         </script>

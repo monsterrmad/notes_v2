@@ -130,31 +130,10 @@
                                             <i class="far fa-heart"></i>
                                         {% endif %}
                                     </div>
-                                    <p class="text-secondary mb-auto mt-auto ml-2"
-                                       id="card-liked-{{ note.pk }}"> {{ note.count_likes }}</p>
+                                    <p class="text-secondary mb-auto mt-auto ml-2" id="card-liked-{{ note.pk }}"> {{ note.count_likes }}</p>
                                 </div>
                                 <p class="mt-auto mb-auto font-weight-bold text-primary"> {{ note.user }} </p>
                             </div>
-
-                            <!-- Like button -->
-                            {% if user.is_authenticated %}
-                                <script type="text/javascript">
-                                    $(document).ready(function (event) {
-                                        $(document).on("click", "#like-{{ note.pk }}", function (event) {
-                                            event.preventDefault();
-                                            let post_id = $(this).attr("value");
-                                            $.ajax({
-                                                type: "POST",
-                                                url: "{{ note.get_absolute_url }}/like",
-                                                data: {"id": post_id, "csrfmiddlewaretoken": "{{csrf_token}}"},
-                                                success: function (data) {
-                                                    $("#like-count-{{ note.pk }}").load(location.href + " #like-count-{{ note.pk }}");
-                                                }
-                                            });
-                                        });
-                                    });
-                                </script>
-                            {% endif %}
                         </div>
 
                     {% endfor %}
@@ -203,31 +182,10 @@
                                         <i class="far fa-heart"></i>
                                     {% endif %}
                                 </div>
-                                <p class="text-secondary mb-auto mt-auto ml-2"
-                                   id="card-liked-{{ note.pk }}"> {{ note.count_likes }}</p>
+                                <p class="text-secondary mb-auto mt-auto ml-2" id="card-liked-{{ note.pk }}"> {{ note.count_likes }}</p>
                             </div>
                             <p class="mt-auto mb-auto font-weight-bold text-primary"> {{ note.user }} </p>
                         </div>
-
-                        <!-- Like button -->
-                        {% if user.is_authenticated %}
-                            <script type="text/javascript">
-                                $(document).ready(function (event) {
-                                    $(document).on("click", "#like-{{ note.pk }}", function (event) {
-                                        event.preventDefault();
-                                        let post_id = $(this).attr("value");
-                                        $.ajax({
-                                            type: "POST",
-                                            url: "{{ note.get_absolute_url }}/like",
-                                            data: {"id": post_id, "csrfmiddlewaretoken": "{{csrf_token}}"},
-                                            success: function (data) {
-                                                $("#like-count-{{ note.pk }}").load(location.href + " #like-count-{{ note.pk }}");
-                                            }
-                                        });
-                                    });
-                                });
-                            </script>
-                        {% endif %}
                         </div>
 
                     {% endfor %}
@@ -281,5 +239,24 @@
     </nav>
     </div>
 
+    <!-- Like button -->
+    {% if user.is_authenticated %}
+        <script type="text/javascript">
+            $(".like-btn").click(function (event) {
+                event.preventDefault();
+                let elementId = this.id;
+                let cardId = elementId.split("-")[1];
+                $.ajax({
+                    type: "POST",
+                    url: "/notes/" + cardId + "/like",
+                    data: {"id": cardId, "csrfmiddlewaretoken": "{{csrf_token}}"},
+                    success: function (data) {
+                        $("#card-liked-" + cardId).replaceWith($(data).find("#card-liked-" + cardId)).html();
+                        $("#like-" + cardId).children().replaceWith($(data).find("#like-" + cardId).children());
+                    }
+                });
+            });
+        </script>
+    {% endif %}
 
 {% endblock %}
