@@ -42,7 +42,7 @@
             </div>
         </div>
         <!-- Card with Dropdown -->
-        <div class="card shadow mb-4" id="note-{{ note.pk }}">
+        <div class="card shadow mb-4" id="card-{{ note.pk }}">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 {% if note.user == user|slugify %}
@@ -84,7 +84,7 @@
             </div>
             <div class="card-header py-3 d-flex justify-content-between">
                 <div class="d-flex" id="like-count-{{ note.pk }}">
-                    <div id="like" class="btn btn-primary btn-circle
+                    <div id="like-{{ note.pk }}" class="like-btn btn btn-primary btn-circle
                             {% if not user.is_authenticated %}
                                 disabled
                             {% endif %}
@@ -95,17 +95,19 @@
                             <i class="far fa-heart"></i>
                         {% endif %}
                     </div>
-                    <p class="text-secondary mb-auto mt-auto ml-2"> {{ note.count_likes }}</p>
+                    <p class="text-secondary mb-auto mt-auto ml-2"
+                       id="card-liked-{{ note.pk }}"> {{ note.count_likes }}</p>
                 </div>
                 <p class="mt-auto mb-auto font-weight-bold text-primary"> {{ note.user }} </p>
             </div>
         </div>
     </div>
+
+    <!-- Like button -->
     {% if user.is_authenticated %}
-        <!-- Like button -->
         <script type="text/javascript">
             $(document).ready(function (event) {
-                $(document).on("click", "#like", function (event) {
+                $(document).on("click", "#like-{{ note.pk }}", function (event) {
                     event.preventDefault();
                     let post_id = $(this).attr("value");
                     $.ajax({

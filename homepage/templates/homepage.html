@@ -89,7 +89,7 @@
                     {# Even list rendering #}
                     {% for note in object_list_even %}
                         <!-- Note Card with Dropdown -->
-                        <div class="card shadow mb-4">
+                        <div class="card shadow mb-4" id="card-{{ note.pk }}">
                             <!-- Card Header - Dropdown -->
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <a href="{{ note.get_absolute_url }}" style="text-decoration: inherit; color: inherit">
@@ -130,10 +130,31 @@
                                             <i class="far fa-heart"></i>
                                         {% endif %}
                                     </div>
-                                    <p class="text-secondary mb-auto mt-auto ml-2"> {{ note.count_likes }}</p>
+                                    <p class="text-secondary mb-auto mt-auto ml-2"
+                                       id="card-liked-{{ note.pk }}"> {{ note.count_likes }}</p>
                                 </div>
                                 <p class="mt-auto mb-auto font-weight-bold text-primary"> {{ note.user }} </p>
                             </div>
+
+                            <!-- Like button -->
+                            {% if user.is_authenticated %}
+                                <script type="text/javascript">
+                                    $(document).ready(function (event) {
+                                        $(document).on("click", "#like-{{ note.pk }}", function (event) {
+                                            event.preventDefault();
+                                            let post_id = $(this).attr("value");
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "{{ note.get_absolute_url }}/like",
+                                                data: {"id": post_id, "csrfmiddlewaretoken": "{{csrf_token}}"},
+                                                success: function (data) {
+                                                    $("#like-count-{{ note.pk }}").load(location.href + " #like-count-{{ note.pk }}");
+                                                }
+                                            });
+                                        });
+                                    });
+                                </script>
+                            {% endif %}
                         </div>
 
                     {% endfor %}
@@ -141,7 +162,7 @@
                 <div class="col-lg-6">
                     {% for note in object_list_odd %}
                         <!-- Note Card with Dropdown -->
-                        <div class="card shadow mb-4">
+                        <div class="card shadow mb-4" id="card-{{ note.pk }}">
                             <!-- Card Header - Dropdown -->
                             <a href="{{ note.get_absolute_url }}" style="text-decoration: inherit; color: inherit">
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -182,10 +203,31 @@
                                         <i class="far fa-heart"></i>
                                     {% endif %}
                                 </div>
-                                <p class="text-secondary mb-auto mt-auto ml-2"> {{ note.count_likes }}</p>
+                                <p class="text-secondary mb-auto mt-auto ml-2"
+                                   id="card-liked-{{ note.pk }}"> {{ note.count_likes }}</p>
                             </div>
                             <p class="mt-auto mb-auto font-weight-bold text-primary"> {{ note.user }} </p>
                         </div>
+
+                        <!-- Like button -->
+                        {% if user.is_authenticated %}
+                            <script type="text/javascript">
+                                $(document).ready(function (event) {
+                                    $(document).on("click", "#like-{{ note.pk }}", function (event) {
+                                        event.preventDefault();
+                                        let post_id = $(this).attr("value");
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "{{ note.get_absolute_url }}/like",
+                                            data: {"id": post_id, "csrfmiddlewaretoken": "{{csrf_token}}"},
+                                            success: function (data) {
+                                                $("#like-count-{{ note.pk }}").load(location.href + " #like-count-{{ note.pk }}");
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+                        {% endif %}
                         </div>
 
                     {% endfor %}
@@ -239,23 +281,5 @@
     </nav>
     </div>
 
-    <!-- Like button -->
-    {% if user.is_authenticated %}
-        <script type="text/javascript">
-            $(".like-btn").click(function (event) {
-                event.preventDefault();
-                alert(event.target.id);
-                let post_id = $(this).attr("value");
-                $.ajax({
-                    type: "POST",
-                    url: "{{ note.get_absolute_url }}/like",
-                    data: {"id": post_id, "csrfmiddlewaretoken": "{{csrf_token}}"},
-                    success: function (data) {
-                        $("#like-count-{{ note.pk }}").load(location.href + " #like-count-{{ note.pk }}");
-                    }
-                });
-            });
-        </script>
-    {% endif %}
 
 {% endblock %}

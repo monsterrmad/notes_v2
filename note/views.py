@@ -229,7 +229,7 @@ class NoteLikeUpdateView(UpdateView):
             note = self.get_object()
             note.change_like_user(str(self.request.user))
             note.save()
-            return redirect("/")
+            return redirect(f"/notes/{note.pk}")
         # else redirects to a login page with a corresponding message
         else:
             messages.error(self.request, "Login to like notes")
