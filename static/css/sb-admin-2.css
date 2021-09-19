@@ -4733,6 +4733,12 @@ input[type="button"].btn-block {
     border-bottom: inherit;
 }
 
+.heart:active {
+    transform: scale(0.75);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+    transition: transform 100ms ease-in-out;
+}
+
 .card > .list-group:first-child {
     border-top-width: 0;
     border-top-left-radius: calc(0.35rem - 1px);
