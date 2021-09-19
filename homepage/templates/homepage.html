@@ -115,7 +115,7 @@
                                 {% endif %}
                             </div>
                             <!-- Card Body -->
-                            <div class="card-body">
+                            <div class="card-body card-body-limited">
                                 {{ note.body|truncatechars_html:1200|safe }}
                             </div>
                             <div class="card-header py-3 d-flex justify-content-between">
@@ -167,7 +167,7 @@
                             {% endif %}
                         </div>
                         <!-- Card Body -->
-                        <div class="card-body">
+                        <div class="card-body card-body-limited">
                             {{ note.body|truncatechars_html:1200|safe }}
                         </div>
                         <div class="card-header py-3 d-flex justify-content-between">
