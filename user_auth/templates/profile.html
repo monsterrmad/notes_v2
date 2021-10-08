@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load static %}
+
+
+    <!-- Profile template -->
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h1 mb-0 text-gray-800">Profile</h1>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Overview</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h2 class="text-primary mb-4">{{ user.username }}</h2>
+                        </div>
+                        {% if user.is_superuser %}
+                            <div class="d-flex justify-content-center">
+                                <img class="profile-page-image" src="{% static 'img/profile_admin.png' %}">
+                            </div>
+                            <h4 class="m-3 text-center text-gray-700">Administrator</h4>
+
+                        {% else %}
+                            <div class="d-flex justify-content-center">
+                                <img class="profile-page-image" src="{% static 'img/profile_user.png' %}">
+                            </div>
+                            <h4 class="m-3 text-center text-gray 700">User</h4>
+                        {% endif %}
+                    </div>
+
+
+                    <div class="d-sm-flex card-footer py-3 justify-content-between align-items-center">
+                        {% if user_token %}
+
+                            <h6 class="m-0 font-weight-bold text-primary">Token:</h6>
+                            <h6 class="m-0 font-weight-bold text-gray-700">{{ user_token }}</h6>
+
+                        {% else %}
+                            <a class="btn btn-primary btn-icon-split" href="/profile/generate-token">
+                                <span class="text">Generate Token</span>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Change Information</h6>
+                    </div>
+                    <div class="card-body">
+
+                        <!-- Nested Row within Card Body -->
+                        <div class="p-3">
+                            <!-- Profile Form -->
+                            <form class="user" action="" method="POST">
+                                {% csrf_token %}
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        {{ form.first_name }}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        {{ form.email }}
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        {{ form.password }}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        {{ form.new_password }}
+                                    </div>
+                                </div>
+                                <input type="submit" class="btn btn-primary btn-user btn-block" value="Save Changes">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Message window -->
+    {% for message in messages %}
+        <div class="my-2">
+            <div class="btn btn-warning btn-icon-split d-flex p-2 ml-3 mr-3 mb-3 mt-2">
+                <span class="text">{{ message }}</span>
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
