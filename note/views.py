@@ -195,7 +195,7 @@ class NoteUpdateView(UpdateView):
         # else redirects to a login page with a corresponding message
         else:
             messages.error(request, "Login to create your notes")
-            return redirect("/login/")
+            return redirect("/login")
 
     def form_valid(self, form):
         """
@@ -233,7 +233,7 @@ class NoteLikeUpdateView(UpdateView):
         # else redirects to a login page with a corresponding message
         else:
             messages.error(self.request, "Login to like notes")
-            return redirect("/login/")
+            return redirect("/login")
 
 
 class NoteDeleteView(DeleteView):

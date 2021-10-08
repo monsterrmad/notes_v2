@@ -11011,6 +11011,10 @@ a:focus {
     width: 2rem;
 }
 
+.profile-page-image {
+    width: 200px;
+}
+
 .topbar {
     height: 4.375rem;
 }

@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
 
+from api import urls as api_urls
 from user_auth import urls as auth_urls
 from note import urls as notes_urls
 
@@ -30,6 +31,8 @@ urlpatterns = [
 
     # to authentication (login and register pages)
     path("", include(auth_urls)),
+
+    path("api/", include(api_urls)),
 
     # admin url
     path("admin/", admin.site.urls),

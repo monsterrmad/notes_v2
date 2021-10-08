@@ -1,9 +1,11 @@
-from django.views.generic import FormView
-from user_auth.forms import RegisterForm, LoginForm
+from django.views.generic import FormView, UpdateView
+from user_auth.forms import RegisterForm, LoginForm, ProfileUpdateForm
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.contrib import messages
-
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+from django.contrib.auth.password_validation import validate_password, ValidationError
 
 class RegisterView(FormView):
     """
@@ -88,3 +90,66 @@ class LoginView(FormView):
         """
         logout(request)
         return redirect("/login/")
+
+
+class ProfileView(UpdateView):
+    model = User
+    template_name = "profile.html"
+    form_class = ProfileUpdateForm
+    success_url = "/profile"
+
+    def get(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return super().get(self.request, args, kwargs)
+        # else redirects to a login page with a corresponding message
+        else:
+            messages.error(self.request, "You are not logged in")
+            return redirect("/login/")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        try:
+            context["user_token"] = Token.objects.get(user=self.request.user).key
+        except Token.DoesNotExist:
+            context["user_token"] = None
+        return context
+
+    def get_object(self, queryset=None):
+        obj = User.objects.get(username=self.request.user)
+        return obj
+
+    def form_valid(self, form):
+        user = self.get_object()
+        username = self.request.user
+        old_password = self.request.POST.get("password")
+        new_password = self.request.POST.get("new_password")
+
+        if user.check_password(old_password):
+            try:
+                validate_password(new_password)
+                result = super().form_valid(form)
+                user.set_password(new_password)
+                user.save()
+                user = authenticate(self.request, username=username, password=new_password)
+                login(self.request, user)
+                messages.info(self.request, "Success")
+                return result
+            except ValidationError as errors:
+                for error in errors:
+                    messages.error(self.request, error)
+                return redirect("/profile")
+
+        else:
+            logout(self.request)
+            messages.error(self.request, "Wrong password")
+            return redirect("/login")
+
+    @staticmethod
+    def generate_token_view(request):
+        if request.user.is_authenticated:
+            user = request.user
+            Token.objects.create(user=user)
+            return redirect("/profile")
+        else:
+            messages.error(request, "You are not logged in")
+            return redirect("/login")

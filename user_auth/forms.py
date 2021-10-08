@@ -16,6 +16,7 @@ class RegisterForm(UserCreationForm):
         :password1:
         :password2:
     """
+
     class Meta:
         model = User
         fields = ["first_name", "username", "email", "password1", "password2"]
@@ -71,5 +72,34 @@ class LoginForm(forms.Form):
         attrs={
             "class": "form-control form-control-user",
             "placeholder": "********"
+        }
+    ))
+
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["first_name", "email", "password"]
+
+    first_name = forms.CharField(widget=forms.TextInput(
+        attrs={
+            "class": "form-control form-control-user",
+        }
+    ))
+    email = forms.CharField(widget=forms.EmailInput(
+        attrs={
+            "class": "form-control form-control-user",
+        }
+    ))
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={
+            "class": "form-control form-control-user",
+            "placeholder": "Old Password"
+        }
+    ))
+    new_password = forms.CharField(widget=forms.PasswordInput(
+        attrs={
+            "class": "form-control form-control-user",
+            "placeholder": "New Password"
         }
     ))
