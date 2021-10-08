@@ -149,6 +149,7 @@ class ProfileView(UpdateView):
     def generate_token_view(request):
         if request.user.is_authenticated:
             user = request.user
+            Token.objects.filter(user=user).delete()
             Token.objects.create(user=user)
             return redirect("/profile")
         else:
