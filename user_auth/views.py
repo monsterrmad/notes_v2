@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.password_validation import validate_password, ValidationError
 
+
 class RegisterView(FormView):
     """
     User registration form view
@@ -119,21 +120,21 @@ class ProfileView(UpdateView):
         return obj
 
     def form_valid(self, form):
-        user = self.get_object()
-        username = self.request.user
         old_password = self.request.POST.get("password")
         new_password = self.request.POST.get("new_password")
+        username = self.request.user
+        user = User.objects.get(username=username)
 
         if user.check_password(old_password):
             try:
                 validate_password(new_password)
-                result = super().form_valid(form)
+                user = form.save(commit=False)
                 user.set_password(new_password)
                 user.save()
                 user = authenticate(self.request, username=username, password=new_password)
                 login(self.request, user)
                 messages.info(self.request, "Success")
-                return result
+                return redirect("/profile")
             except ValidationError as errors:
                 for error in errors:
                     messages.error(self.request, error)
