@@ -4,7 +4,7 @@ from note.models import Note
 
 class NoteSerializer(serializers.ModelSerializer):
     """
-    Serializer for api Event model request
+    Serializer for api Note model request
     """
 
     class Meta:

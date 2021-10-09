@@ -29,9 +29,10 @@ from homepage.views import NoteHomePageView
 
 urlpatterns = [
 
-    # to authentication (login and register pages)
+    # to authentication (login, register and profile pages)
     path("", include(auth_urls)),
 
+    # to api
     path("api/", include(api_urls)),
 
     # admin url

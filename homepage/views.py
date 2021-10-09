@@ -10,6 +10,7 @@ class NoteHomePageView(ListView):
     Uses pagination
     Notes can be sorted by likes and creation time
     For proper pagination stores page url params for the template
+    Paginated by 25
     """
     model = Note
     template_name = "homepage.html"

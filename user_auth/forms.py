@@ -77,6 +77,17 @@ class LoginForm(forms.Form):
 
 
 class ProfileUpdateForm(forms.ModelForm):
+    """
+    Profile edit form
+    Uses a django build in User model
+    Has old password check and new password validation
+    sets html class attributes and tags
+    fields:
+        :first_name:
+        :email:
+        :password:
+        :new_password:
+    """
     class Meta:
         model = User
         fields = ["first_name", "email", "password"]

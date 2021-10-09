@@ -1,89 +1,151 @@
 {% extends 'base.html' %}
 {% block content %}
     {% load static %}
-
-
     <!-- Profile template -->
     <div class="container-fluid">
+
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h1 mb-0 text-gray-800">Profile</h1>
         </div>
+        <!-- Profile stats -->
         <div class="row">
-            <div class="col-lg-6">
-
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Overview</h6>
-                    </div>
+            <!-- Total notes Card -->
+            <div class="col mb-3">
+                <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
-                        <div class="text-center">
-                            <h2 class="text-primary mb-4">{{ user.username }}</h2>
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Total notes:
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_notes }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>
                         </div>
-                        {% if user.is_superuser %}
-                            <div class="d-flex justify-content-center">
-                                <img class="profile-page-image" src="{% static 'img/profile_admin.png' %}">
-                            </div>
-                            <h4 class="m-3 text-center text-gray-700">Administrator</h4>
-
-                        {% else %}
-                            <div class="d-flex justify-content-center">
-                                <img class="profile-page-image" src="{% static 'img/profile_user.png' %}">
-                            </div>
-                            <h4 class="m-3 text-center text-gray 700">User</h4>
-                        {% endif %}
-                    </div>
-
-
-                    <div class="d-sm-flex card-footer py-3 justify-content-between align-items-center">
-                        {% if user_token %}
-
-                            <h6 class="m-0 font-weight-bold text-primary">Token:</h6>
-                            <h6 class="m-0 font-weight-bold text-gray-700">{{ user_token }}</h6>
-
-                        {% else %}
-                            <a class="btn btn-primary btn-icon-split" href="/profile/generate-token">
-                                <span class="text">Generate Token</span>
-                            </a>
-                        {% endif %}
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
 
+            <!-- Total public notes Card -->
+            <div class="col mb-3">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Public notes:
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_pub }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-share-alt-square fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Date registered Card -->
+            <div class="col mb-3">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Date registered
+                                </div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ date_registered|date:'F d, Y' }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="far fa-hourglass fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Profile Info/Change Cards -->
+        <div class="row">
+            <!-- Left side -->
+            <div class="col-md-4">
+                <!-- Profile Info Card -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Info</h6>
+                    </div>
+                    <div class="card-body p-3">
+                        <h2 class="text-primary">{{ user.username }}</h2>
+
+                        {% if user.is_superuser %}
+                            <h6 class="text-gray-700">Administrator</h6>
+                        {% else %}
+                            <h4 class="text-gray 700">User</h4>
+                        {% endif %}
+
+                        <div class="d-flex row justify-content-between mt-5">
+                            {% if user_token %}
+                                <h6 class="font-weight-bold text-primary col">API Token:</h6>
+                                <h6 class="font-weight-bold text-gray-700 col">{{ user_token }}</h6>
+                            {% else %}
+                                <a class="btn btn-primary btn-icon-split" href="/profile/generate-token">
+                                    <span class="text">Generate Token</span>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile edit form Card -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">Change Information</h6>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body pt-0">
 
                         <!-- Nested Row within Card Body -->
-                        <div class="p-3">
-                            <!-- Profile Form -->
-                            <form class="user" action="" method="POST">
-                                {% csrf_token %}
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        {{ form.first_name }}
-                                    </div>
-                                    <div class="col-sm-6">
-                                        {{ form.email }}
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        {{ form.password }}
-                                    </div>
-                                    <div class="col-sm-6">
-                                        {{ form.new_password }}
-                                    </div>
-                                </div>
+                        <!-- Profile Form -->
+                        <form class="user" action="" method="POST">
+                            {% csrf_token %}
+                            <div class="m-3">
+                                {{ form.first_name }}
+                            </div>
+                            <div class="m-3">
+                                {{ form.email }}
+                            </div>
+                            <div class="m-3">
+                                {{ form.password }}
+                            </div>
+                            <div class="m-3">
+                                {{ form.new_password }}
+                            </div>
+                            <div class="m-3">
                                 <input type="submit" class="btn btn-primary btn-user btn-block" value="Save Changes">
-                            </form>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Side -->
+            <div class="col-md-8">
+                <!-- Activity Chart Card -->
+                <div class="card shadow mb-4 mw-100">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Overview</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <canvas id="myAreaChart"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -96,5 +158,135 @@
             </div>
         </div>
     {% endfor %}
+
+    <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+    <!-- Chart Script -->
+    <script>
+        // Set new default font family and font color to mimic Bootstrap's default styling
+        Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+        Chart.defaults.global.defaultFontColor = '#858796';
+
+        function number_format(number, decimals, dec_point, thousands_sep) {
+            // *     example: number_format(1234.56, 2, ',', ' ');
+            // *     return: '1 234,56'
+            number = (number + '').replace(',', '').replace(' ', '');
+            var n = !isFinite(+number) ? 0 : +number,
+                prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+                sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+                dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+                s = '',
+                toFixedFix = function (n, prec) {
+                    var k = Math.pow(10, prec);
+                    return '' + Math.round(n * k) / k;
+                };
+            // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+            s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+            if (s[0].length > 3) {
+                s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+            }
+            if ((s[1] || '').length < prec) {
+                s[1] = s[1] || '';
+                s[1] += new Array(prec - s[1].length + 1).join('0');
+            }
+            return s.join(dec);
+        }
+
+        // Area Chart Example
+        var ctx = document.getElementById("myAreaChart");
+        var myLineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [
+                    {% for label in chart_data_labels %}
+                        "{{ label }}",
+                    {% endfor %}
+                ],
+                datasets: [{
+                    label: "Notes Posted",
+                    lineTension: 0.3,
+                    backgroundColor: "rgba(78, 115, 223, 0.05)",
+                    borderColor: "rgba(78, 115, 223, 1)",
+                    pointRadius: 3,
+                    pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                    pointBorderColor: "rgba(78, 115, 223, 1)",
+                    pointHoverRadius: 3,
+                    pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                    pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                    pointHitRadius: 10,
+                    pointBorderWidth: 2,
+                    data: [
+                        {% for data in chart_data_data %}
+                            "{{ data }}",
+                        {% endfor %}],
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 25,
+                        top: 25,
+                        bottom: 0
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        time: {
+                            unit: 'date'
+                        },
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            maxTicksLimit: 7
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            maxTicksLimit: 5,
+                            padding: 10,
+                            // Include a dollar sign in the ticks
+                            callback: function (value, index, values) {
+                                return number_format(parseInt(value));
+                            }
+                        },
+                        gridLines: {
+                            color: "rgb(234, 236, 244)",
+                            zeroLineColor: "rgb(234, 236, 244)",
+                            drawBorder: false,
+                            borderDash: [2],
+                            zeroLineBorderDash: [2]
+                        }
+                    }],
+                },
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    titleMarginBottom: 10,
+                    titleFontColor: '#6e707e',
+                    titleFontSize: 14,
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    intersect: false,
+                    mode: 'index',
+                    caretPadding: 10,
+                    callbacks: {
+                        label: function (tooltipItem, chart) {
+                            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                            return datasetLabel + ': ' + number_format(tooltipItem.yLabel);
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 
 {% endblock %}

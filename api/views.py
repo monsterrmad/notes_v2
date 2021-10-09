@@ -8,20 +8,41 @@ from note.models import Note
 
 
 class StandardResultsSetPagination(PageNumberPagination):
+    """
+    Pagination class
+    sets page size of json response to 100
+    """
     page_size = 100
 
 
 class PublicNotesListAPIView(ListAPIView):
+    """
+    Public notes json view class
+    Does not require authentication
+    Uses Note Serializer
+    Sorts notes by likes
+    """
     queryset = Note.objects.filter(public=True).order_by("-likes")
     serializer_class = NoteSerializer
 
 
 class PrivateNotesListAPIView(ListAPIView):
+    """
+    Private notes json view class
+    Requires authentication:
+    by Token, Session or Login and Password
+    Uses Note Serializer
+    Returns only private notes of an authorised user
+    """
     authentication_classes = [TokenAuthentication, SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
     serializer_class = NoteSerializer
     pagination_class = StandardResultsSetPagination
 
     def get_queryset(self):
+        """
+        Gets notes of requested user
+        :return:
+        """
         user = self.request.user
         return Note.objects.filter(user=user)

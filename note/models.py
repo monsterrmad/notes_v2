@@ -52,15 +52,32 @@ class Note(models.Model):
         self.date_edited = timezone.now()
 
     def change_like_user(self, user):
+        """
+        Changes list of users liked a note
+        Not all sql databases support array storage so stores as a string of users
+        :param user: str
+        :return: None
+        """
+        # gets list of users by splitting a string by a space
+        # no spaces allowed in username so it's fine
         liked_users_list = self.liked_users.split(" ")
+        # if user already liked the note, removes the like
         if user in liked_users_list:
             liked_users_list.remove(user)
+        # and vise-versa
         else:
             liked_users_list.append(user)
+        # joins the string
         self.liked_users = " ".join(liked_users_list)
+        # saves the record
         self.likes = self.count_likes()
 
     def get_user_liked(self, user):
+        """
+        Returns whether the user liked the note
+        :param user: string
+        :return: bool
+        """
         liked_users_list = self.liked_users.split(" ")
         if user in liked_users_list:
             return True
@@ -68,4 +85,8 @@ class Note(models.Model):
             return False
 
     def count_likes(self):
+        """
+        Counts how many likes the note has
+        :return:
+        """
         return self.liked_users.count(" ")
