@@ -2162,6 +2162,10 @@ select.form-control[size], select.form-control[multiple] {
     height: auto;
 }
 
+textarea {
+    min-height: 60vh;
+}
+
 textarea.form-control {
     height: auto;
 }
