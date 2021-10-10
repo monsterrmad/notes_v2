@@ -32,7 +32,7 @@ class Note(models.Model):
     favorite = models.BooleanField(default=False, blank=True)
     views = models.IntegerField(default=0, blank=True)
     completed = models.BooleanField(default=False, blank=True)
-    liked_users = models.TextField(default="")
+    liked_users = models.TextField(default="", blank=True)
     likes = models.IntegerField(default=0)
 
     @property
