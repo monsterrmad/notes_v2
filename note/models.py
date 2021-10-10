@@ -89,4 +89,7 @@ class Note(models.Model):
         Counts how many likes the note has
         :return:
         """
-        return self.liked_users.count(" ") + 1
+        if self.liked_users:
+            return self.liked_users.count(" ") + 1
+        else:
+            return 0
