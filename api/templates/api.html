@@ -27,14 +27,15 @@
                         <h6 class="m-0 font-weight-bold text-primary">Description</h6>
                     </div>
                     <div class="card-body p-4">
+                        <p>You can use Notes API to retrieve list of Public and Private notes or User profile info.</p>
                         <div class="text-center">
                             <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
                                  src="{% static 'img/undraw_Artificial_intelligence_re_enpp.svg' %}" alt="...">
                         </div>
                         <p>
-                            You can use Notes API to retrieve list of Public or Private notes. <br>
                             Public notes can be accessed without any authentication, just like the main page. <br>
-                            Private notes are locked to a certain account and require both registration and
+                            Private notes and user info are locked to a certain account and require both registration
+                            and
                             authentication.
                         </p>
                         <p>They can be accessed via three authentication methods:</p>
@@ -43,7 +44,8 @@
                             <li>Session Authentication</li>
                             <li>Token Authentication</li>
                         </ul>
-                        <p>API built using Djnago REST framework. More information can be accessed
+                        <hr>
+                        <p>API built using Django REST framework. More information can be accessed
                             <a href="https://www.django-rest-framework.org/" target="_blank">
                                 here
                             </a>
@@ -65,6 +67,33 @@
                             </a>
                             page. There can be only one token per user.
                         </p>
+                        <hr>
+                        <p>Notes JSON consists of the following information:</p>
+                        <ul>
+                            <li>id</li>
+                            <li>user - Note Author</li>
+                            <li>name - Note name/title</li>
+                            <li>date_created</li>
+                            <li>date_edited</li>
+                            <li>likes</li>
+                            <li>body - Note HTML body</li>
+                        </ul>
+                        <div class="text-center">
+                            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
+                                 src="{% static 'img/undraw_online_test_gba7.svg' %}" alt="...">
+                        </div>
+                        <p>Profile information consists of:</p>
+                        <ul>
+                            <li>username</li>
+                            <li>first_name</li>
+                            <li>email</li>
+                            <li>date_joined - User registration date</li>
+                            <li>is_superuser - Whether the User is has permission to use admin panel</li>
+                            <li>last_login</li>
+                            <li>time_data - User activity data for the last 6 month</li>
+                            <li>total_notes</li>
+                            <li>public_notes</li>
+                        </ul>
                     </div>
                 </div>
 
@@ -143,6 +172,7 @@
                         <p>Public notes can be accessed without any authentication: <br>
                             <code> GET <a href="/api/public">https://notes.zoloto.cx.ua/api/public</a></code>
                         </p>
+                        <hr>
                         <p>Note objects are sorted by date:</p>
                         <pre id="public-example">
                             <!-- Example JSON is generated with JavaScript -->
@@ -169,8 +199,36 @@
                         </p>
                         <p>Or can be accessed in an opened
                             <a href="/api/private">logged session</a></p>
+                        <hr>
                         <p>Note objects are sorted by date:</p>
                         <pre id="private-example">
+                            <!-- Example JSON is generated with JavaScript -->
+                        </pre>
+                    </div>
+                </div>
+
+                <!-- Profile API Card with an example-->
+                <div class="card shadow mb-4 mw-100">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Profile Information Example</h6>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Profile information requires authorization identical to the private Notes
+                        </p>
+                        <p>Authorization can be done using token: <br>
+                            <code>
+                                curl -X GET https://notes.zoloto.cx.ua/api/profile -H 'Authorization: Token {token}'
+                            </code>
+                        </p>
+                        <p>
+                            Using username and password: <br>
+                            <code>curl --user {name}:{password} https://notes.zoloto.cx.ua/api/profile</code>
+                        </p>
+                        <p>Or can be accessed in an opened
+                            <a href="/api/profile">logged session</a></p>
+                        <hr>
+                        <pre id="profile-example">
                             <!-- Example JSON is generated with JavaScript -->
                         </pre>
                     </div>
@@ -220,9 +278,29 @@
                 "body": "<p>Your 2'nd note body in html format</p>"
             }
         ]
+        let profileData = {
+            "username": "{{ user.username }}",
+            "first_name": "{{ user.first_name }}",
+            "email": "{{ user.email }}",
+            "date_joined": "{{user.date_joined}}",
+            "is_superuser": false,
+            "last_login": "{{user.last_login}}",
+            "time_data": {
+                "October": 123,
+                "September": 321,
+                "August": 12,
+                "July": 21,
+                "June": 1,
+                "May": 1
+            },
+            "total_notes": 993,
+            "public_notes": 7
+        }
         let jsonPublicData = JSON.stringify(publicData, null, 4);
         let jsonPrivateData = JSON.stringify(privateData, null, 4);
+        let jsonProfileData = JSON.stringify(profileData, null, 4);
         $("#public-example").text(jsonPublicData);
         $("#private-example").text(jsonPrivateData);
+        $("#profile-example").text(jsonProfileData);
     </script>
 {% endblock %}
