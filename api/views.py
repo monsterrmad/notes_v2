@@ -1,4 +1,5 @@
 from rest_framework.generics import ListAPIView
+from django.views.generic import TemplateView
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
@@ -46,3 +47,10 @@ class PrivateNotesListAPIView(ListAPIView):
         """
         user = self.request.user
         return Note.objects.filter(user=user)
+
+
+class DescriptionAPIView(TemplateView):
+    """
+    API description page
+    """
+    template_name = "api.html"

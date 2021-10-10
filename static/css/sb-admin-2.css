@@ -529,9 +529,8 @@ kbd kbd {
 }
 
 pre {
+    color: #e83e8c;
     display: block;
-    font-size: 87.5%;
-    color: #3a3b45;
 }
 
 pre code {
