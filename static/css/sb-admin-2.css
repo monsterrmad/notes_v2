@@ -41,6 +41,26 @@
     --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f8f9fc;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #4e73df;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #7290e6;
+}
+
 *,
 *::before,
 *::after {
