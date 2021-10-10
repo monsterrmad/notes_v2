@@ -31,7 +31,7 @@ class NoteHomePageView(ListView):
             query_set = query_set.order_by("-date_edited")
             self.page_url = "&sort=date"
         else:
-            query_set = query_set.order_by("-likes")
+            query_set = query_set.order_by("-likes", "-date_edited")
 
         return query_set
 
