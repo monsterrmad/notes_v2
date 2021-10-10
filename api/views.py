@@ -21,9 +21,9 @@ class PublicNotesListAPIView(ListAPIView):
     Public notes json view class
     Does not require authentication
     Uses Note Serializer
-    Sorts notes by likes
+    Sorts notes by last edit date
     """
-    queryset = Note.objects.filter(public=True).order_by("-likes")
+    queryset = Note.objects.filter(public=True).order_by("-date_edited")
     serializer_class = NoteSerializer
 
 
@@ -34,6 +34,7 @@ class PrivateNotesListAPIView(ListAPIView):
     by Token, Session or Login and Password
     Uses Note Serializer
     Returns only private notes of an authorised user
+    Sorts notes by last edit date
     """
     authentication_classes = [TokenAuthentication, SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticated]
@@ -46,7 +47,7 @@ class PrivateNotesListAPIView(ListAPIView):
         :return:
         """
         user = self.request.user
-        return Note.objects.filter(user=user)
+        return Note.objects.filter(user=user).order_by("-date_edited")
 
 
 class DescriptionAPIView(TemplateView):

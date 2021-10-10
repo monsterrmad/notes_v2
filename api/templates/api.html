@@ -6,7 +6,7 @@
 
         <!-- Page Heading -->
         <h1 class="h1 mb-0 text-gray-800">Notes API</h1>
-        <p class="mb-4">There is a
+        <p class="mb-4">Notes support
             <a href="https://en.wikipedia.org/wiki/Representational_state_transfer" target="_blank">
                 REST
             </a>
@@ -32,7 +32,7 @@
                                  src="{% static 'img/undraw_Artificial_intelligence_re_enpp.svg' %}" alt="...">
                         </div>
                         <p>
-                            You can you Notes API to retrieve Public or Private notes. <br>
+                            You can use Notes API to retrieve list of Public or Private notes. <br>
                             Public notes can be accessed without any authentication, just like the main page. <br>
                             Private notes are locked to a certain account and require both registration and
                             authentication.
@@ -53,7 +53,7 @@
                                  src="{% static 'img/undraw_programmer_imem.svg' %}" alt="...">
                         </div>
                         <p>
-                            Basic Authentication HTTP Basic Authentication Scheme,
+                            HTTP Basic Authentication Scheme is
                             signed against a user's username and password. <br>
                             Session Authentication uses Django's default session backend for authentication <br>
                             Token Authentication scheme uses a simple token-based HTTP Authentication scheme.
@@ -68,7 +68,7 @@
                     </div>
                 </div>
 
-                <!-- API Description Card -->
+                <!-- HTTP Codes Table Card -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">HTTP Code Status Summary</h6>
@@ -118,14 +118,13 @@
                                 <tr>
                                     <td>429</td>
                                     <td>Too Many Requests</td>
-                                    <td>Too many requests hit the API too quickly. We recommend an exponential
-                                        backoff of your requests
+                                    <td>Too many requests hit the API too quickly
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>500, 502, 503, 504</td>
                                     <td>Server Errors</td>
-                                    <td>Something went wrong on Notes' end (These are rare)</td>
+                                    <td>Something went wrong on Notes' end</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -135,7 +134,7 @@
             </div>
             <!-- Right Side -->
             <div class="col-lg-6">
-                <!-- Public notes api  Card -->
+                <!-- Public notes API Card with an example-->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">Public Notes Example</h6>
@@ -144,11 +143,13 @@
                         <p>Public notes can be accessed without any authentication: <br>
                             <code> GET <a href="/api/public">https://notes.zoloto.cx.ua/api/public</a></code>
                         </p>
-                        <p>Note objects are sorted by likes:</p>
-                        <pre id="public-example"></pre>
+                        <p>Note objects are sorted by date:</p>
+                        <pre id="public-example">
+                            <!-- Example JSON is generated with JavaScript -->
+                        </pre>
                     </div>
                 </div>
-                <!-- Activity Chart Card -->
+                <!-- Private notes API Card with an example-->
                 <div class="card shadow mb-4 mw-100">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">Private Notes Example</h6>
@@ -158,18 +159,20 @@
                             Private notes require authorization or active logged session
                         </p>
                         <p>Authorization can be done using token: <br>
-                            <code>curl -X GET https://notes.zoloto.cx.ua/api/private -H 'Authorization: Token
-                                {token}'
+                            <code>
+                                curl -X GET https://notes.zoloto.cx.ua/api/private -H 'Authorization: Token {token}'
                             </code>
                         </p>
                         <p>
-                            Using login and password <br>
+                            Using username and password: <br>
                             <code>curl --user {name}:{password} https://notes.zoloto.cx.ua/api/private</code>
                         </p>
-                        <p>Or can be accessed in opened
-                        <a href="/api/private">logged session</a></p>
-                        <p>Note objects are sorted by likes:</p>
-                        <pre id="private-example"></pre>
+                        <p>Or can be accessed in an opened
+                            <a href="/api/private">logged session</a></p>
+                        <p>Note objects are sorted by date:</p>
+                        <pre id="private-example">
+                            <!-- Example JSON is generated with JavaScript -->
+                        </pre>
                     </div>
                 </div>
             </div>
@@ -177,6 +180,7 @@
         </div>
     </div>
 
+    <!-- JSON examples using stringify JSON method -->
     <script>
         let publicData = [
             {
@@ -184,7 +188,7 @@
                 "user": "username_1",
                 "name": "note 1 title",
                 "date_created": "2021-10-09T22:34:23.910752Z",
-                "date_edited": "2021-09-14T04:52:47.542000Z",
+                "date_edited": "2021-10-14T04:52:47.542000Z",
                 "likes": 321,
                 "body": "<p>Public Note 1 body in html format</p>"
             }, {
@@ -192,7 +196,7 @@
                 "user": "username_3",
                 "name": "note 2 title",
                 "date_created": "2021-10-09T22:34:23.910752Z",
-                "date_edited": "2021-09-14T04:52:47.542000Z",
+                "date_edited": "2021-09-20T04:52:47.542000Z",
                 "likes": 123,
                 "body": "<p>Public Note 2 body in html format</p>"
             }
@@ -202,7 +206,7 @@
                 "id": 1,
                 "user": "{{user.username}}",
                 "name": "note 1 title",
-                "date_created": "2021-10-09T22:34:23.910752Z",
+                "date_created": "2021-09-09T22:34:23.910752Z",
                 "date_edited": "2021-09-14T04:52:47.542000Z",
                 "likes": 5,
                 "body": "<p>Your 1'st note body in html format</p>"
@@ -210,8 +214,8 @@
                 "id": 2,
                 "user": "{{user.username}}",
                 "name": "note 2 title",
-                "date_created": "2021-10-09T22:34:23.910752Z",
-                "date_edited": "2021-09-14T04:52:47.542000Z",
+                "date_created": "2021-09-09T22:34:23.910752Z",
+                "date_edited": "2021-09-13T04:52:47.542000Z",
                 "likes": 4,
                 "body": "<p>Your 2'nd note body in html format</p>"
             }
