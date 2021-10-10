@@ -99,7 +99,7 @@ class UserDetailAPIView(APIView):
 
     def get_user_data(self):
         """
-        Gets user info from the serializer
+        Gets the user info from the serializer
         :return:
         """
         user_data = UserSerializer(
