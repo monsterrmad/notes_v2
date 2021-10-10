@@ -68,7 +68,7 @@ class Note(models.Model):
         else:
             liked_users_list.append(user)
         # joins the string
-        self.liked_users = " ".join(liked_users_list)
+        self.liked_users = " ".join(liked_users_list).strip()
         # saves the record
         self.likes = self.count_likes()
 
@@ -89,4 +89,4 @@ class Note(models.Model):
         Counts how many likes the note has
         :return:
         """
-        return self.liked_users.count(" ")
+        return self.liked_users.count(" ") + 1

@@ -28,10 +28,10 @@ class NoteHomePageView(ListView):
         """
         query_set = Note.objects.filter(public=True)
         if self.request.GET.get("sort") == "date":
-            query_set = query_set.order_by("date_edited").reverse()
+            query_set = query_set.order_by("-date_edited")
             self.page_url = "&sort=date"
         else:
-            query_set = query_set.order_by("likes").reverse()
+            query_set = query_set.order_by("-likes")
 
         return query_set
 
