@@ -85,6 +85,19 @@
                     <span>Log out</span>
                 </a>
             </li>
+            {% if user.is_superuser %}
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+                <div class="sidebar-heading">
+                    SuperUser
+                </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin">
+                        <i class="fas fa-fw fa-edit"></i>
+                        <span>Admin page</span>
+                    </a>
+                </li>
+            {% endif %}
         {% endif %}
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
