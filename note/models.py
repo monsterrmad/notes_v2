@@ -26,7 +26,7 @@ class Note(models.Model):
     # TinyMCE field
     body = HTMLField(null=True, blank=True)
 
-    date_edited = models.DateTimeField(blank=True)
+    date_edited = models.DateTimeField(blank=True, default=timezone.now)
     date_created = models.DateTimeField(blank=True, default=timezone.now)
     public = models.BooleanField(default=False, blank=True)
     favorite = models.BooleanField(default=False, blank=True)

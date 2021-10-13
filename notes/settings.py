@@ -30,15 +30,19 @@ ALLOWED_HOSTS = ["notes.zoloto.cx.ua", '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
-    'tinymce',
 
+    'tinymce',
+    'rest_framework',
+    'rest_framework.authtoken',
+
+    'api',
     'user_auth',
     'note',
     'homepage',
