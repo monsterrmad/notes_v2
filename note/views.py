@@ -81,7 +81,7 @@ class NoteListView(ListView):
         # if user is authenticated set the query set
         if request.user.is_authenticated:
             self.user = request.user
-            self.queryset = Note.objects.filter(user=self.user).order_by("date_edited").reverse()
+            self.queryset = Note.objects.filter(user=self.user).order_by("favorite").order_by("-date_edited")
             return super(NoteListView, self).get(request, *args, **kwargs)
         # else redirect to the login page with a corresponding message
         else:

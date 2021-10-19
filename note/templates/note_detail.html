@@ -50,13 +50,13 @@
                 {% endif %}
                 <h2 class="m-0 font-weight-bold text-primary">{{ note.name }}
                     {% if note.favorite %}
-                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star small"></i>
                     {% endif %}
                     {% if note.public %}
-                        <i class="fas fa-share-alt"></i>
+                        <i class="fas fa-share-alt small"></i>
                     {% endif %}
                     {% if note.completed %}
-                        <i class="fas fa-check"></i>
+                        <i class="fas fa-check small"></i>
                     {% endif %}
                 </h2>
                 {% if note.user == user|slugify %}

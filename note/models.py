@@ -11,14 +11,14 @@ class Note(models.Model):
     fields:
         :user: author
         :name: title
-        :body: html note body
+        :body: html note body for TinyMCE editor
         :date_created: note creation date
         :date_edited: last time the note was edited
-        :public: is note was shared for everyone to see
-        :favorite: is note was pinned by a user
-        :completed: is note as a task was completed
-        :views: how much views note gained over time
-        :liked_users: string list of user that liked the note
+        :public: is a note was shared for everyone to see
+        :favorite: is a note was pinned by a user
+        :completed: is a note as a task was completed
+        :liked_users: string list of users that liked the note
+        :likes: int to store the amount of likes
     """
     user = models.CharField(max_length=191)
     name = models.CharField(max_length=120)
@@ -30,10 +30,9 @@ class Note(models.Model):
     date_created = models.DateTimeField(blank=True, default=timezone.now)
     public = models.BooleanField(default=False, blank=True)
     favorite = models.BooleanField(default=False, blank=True)
-    views = models.IntegerField(default=0, blank=True)
     completed = models.BooleanField(default=False, blank=True)
-    liked_users = models.TextField(default="", blank=True)
-    likes = models.IntegerField(default=0)
+    liked_users = models.TextField(default="", blank=True, null=True)
+    likes = models.IntegerField(default=0, blank=True)
 
     @property
     def get_absolute_url(self):

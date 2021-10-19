@@ -10,11 +10,11 @@
             <a href="https://en.wikipedia.org/wiki/Representational_state_transfer" target="_blank">
                 REST
             </a>
-            API that returns
+            API that allows to retrieve, create, update and destroy
             <a href="https://www.json.org/json-en.html" target="_blank">
                 JSON-encoded
             </a>
-            responses, and uses standard HTTP response codes, authentication, and verbs.
+            note objects, and uses standard HTTP response codes, authentication, and verbs.
         </p>
 
         <!-- API Description and Examples Card -->
@@ -27,27 +27,44 @@
                         <h6 class="m-0 font-weight-bold text-primary">Description</h6>
                     </div>
                     <div class="card-body p-4">
-                        <p>You can use Notes API to retrieve list of Public and Private notes or User profile info.</p>
+                        <p>You can use Notes API to retrieve list or of Public or Private notes or User profile info.
+                            You can also retrieve data about a single note using it's
+                            <a href="/api/public/1017 target=" _blank"">primary key.</a>
+                        </p>
                         <div class="text-center">
                             <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
                                  src="{% static 'img/undraw_Artificial_intelligence_re_enpp.svg' %}" alt="...">
                         </div>
+                        <p>Note api supports full REST api allowing all four basic methods:</p>
+                        <ul>
+                            <li><code>GET</code> for retrieving note/s info</li>
+                            <li><code>PUT</code> for updating (editing) a note</li>
+                            <li><code>POST</code> for creating a note</li>
+                            <li><code>DELETE</code> for destroying (deleting) a note</li>
+                        </ul>
+
                         <p>
                             Public notes can be accessed without any authentication, just like the main page. <br>
-                            Private notes and user info are locked to a certain account and require both registration
-                            and
-                            authentication.
+                            Private notes, their creation, editing and deleting as well as user info, are locked
+                            to a certain account and require both registration and authentication.
                         </p>
-                        <p>They can be accessed via three authentication methods:</p>
+                        <p>They can be accessed via following authentication methods:</p>
                         <ul>
-                            <li>Basic Authentication</li>
-                            <li>Session Authentication</li>
-                            <li>Token Authentication</li>
+                            <li>
+                                <a href="https://www.django-rest-framework.org/api-guide/authentication/#sessionauthentication"
+                                   target="_blank">Session</a>
+                                Authentication
+                            </li>
+                            <li>
+                                <a href="https://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication"
+                                   target="_blank">Token</a>
+                                Authentication
+                            </li>
                         </ul>
                         <hr>
                         <p>API built using Django REST framework. More information can be accessed
                             <a href="https://www.django-rest-framework.org/" target="_blank">
-                                here
+                                here.
                             </a>
                         </p>
                         <div class="text-center">
@@ -55,44 +72,54 @@
                                  src="{% static 'img/undraw_programmer_imem.svg' %}" alt="...">
                         </div>
                         <p>
-                            HTTP Basic Authentication Scheme is
-                            signed against a user's username and password. <br>
                             Session Authentication uses Django's default session backend for authentication <br>
                             Token Authentication scheme uses a simple token-based HTTP Authentication scheme.
                         </p>
                         <p>
                             Token can be generated at
-                            <a href="/profile">
+                            <a href="/profile" target="_blank">
                                 profile
                             </a>
                             page. There can be only one token per user.
                         </p>
                         <hr>
-                        <p>Notes information:</p>
+                        <p>Depending on whether the Note is requested as a private or a public one,
+                            the response contains different fields:
+                            <br>Private Note:</p>
                         <ul>
-                            <li>id</li>
-                            <li>user - Note Author</li>
-                            <li>name - Note name/title</li>
-                            <li>date_created</li>
-                            <li>date_edited</li>
-                            <li>likes</li>
-                            <li>body - Note HTML body</li>
+                            <li><code>id</code> Note unique id</li>
+                            <li><code>name</code> Note title/name</li>
+                            <li><code>date_created</code> Note creation date</li>
+                            <li><code>date_edited</code> Last time Note was edited</li>
+                            <li><code>public</code> Whether the Note is public</li>
+                            <li><code>favorite</code> Whether the Note is pinned by the User</li>
+                            <li><code>completed</code> Whether the Note is completed by the User</li>
+                            <li><code>body</code> Note HTML body</li>
                         </ul>
                         <div class="text-center">
                             <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
                                  src="{% static 'img/undraw_online_test_gba7.svg' %}" alt="...">
                         </div>
+                        <p>The public Note contains similar data except there is <code>user</code> and
+                            <code>likes</code> amount field
+                            and no following fields:</p>
+                        <ul>
+                            <li><code>public</code></li>
+                            <li><code>favorite</code></li>
+                            <li><code>completed</code></li>
+                        </ul>
+                        <hr>
                         <p>Profile information:</p>
                         <ul>
-                            <li>username</li>
-                            <li>first_name</li>
-                            <li>email</li>
-                            <li>date_joined - User registration date</li>
-                            <li>is_superuser - Whether the User is has permission to use admin panel</li>
-                            <li>last_login</li>
-                            <li>time_data - User activity data for the last 6 month</li>
-                            <li>total_notes</li>
-                            <li>public_notes</li>
+                            <li><code>username</code> - User nickname</li>
+                            <li><code>first_name</code> - User name</li>
+                            <li><code>email</code> User - email</li>
+                            <li><code>date_joined</code> - User registration date</li>
+                            <li><code>is_superuser</code> - Whether the User is has permission to use admin panel</li>
+                            <li><code>last_login</code> - Last time the user was logged in</li>
+                            <li><code>time_data</code> - User activity data for the last 6 month</li>
+                            <li><code>total_notes</code> - Total of created notes by the user</li>
+                            <li><code>public_notes</code> - The amount of notes the user shared</li>
                         </ul>
                     </div>
                 </div>
@@ -170,7 +197,9 @@
                     </div>
                     <div class="card-body">
                         <p>Public notes can be accessed without any authentication: <br>
-                            <code> GET <a href="/api/public">https://notes.zoloto.cx.ua/api/public</a></code>
+                            <code> GET <a href="/api/public"
+                                          target="_blank">https://notes.zoloto.cx.ua/api/public</a></code><br>
+                            <code> GET <a href="/api/public/1017" target="_blank">https://notes.zoloto.cx.ua/api/public/1017</a></code>
                         </p>
                         <hr>
                         <p>Note objects are sorted by date:</p>
@@ -186,19 +215,15 @@
                     </div>
                     <div class="card-body">
                         <p>
-                            Private notes require authorization or active logged session
+                            Private notes require authorization or active logged session.
                         </p>
                         <p>Authorization can be done using token: <br>
                             <code>
                                 curl -X GET https://notes.zoloto.cx.ua/api/private -H 'Authorization: Token {token}'
                             </code>
                         </p>
-                        <p>
-                            Using username and password: <br>
-                            <code>curl --user {name}:{password} https://notes.zoloto.cx.ua/api/private</code>
-                        </p>
                         <p>Or can be accessed in an opened
-                            <a href="/api/private">logged session</a></p>
+                            <a href="api/private" target="_blank">logged session</a></p>
                         <hr>
                         <p>Note objects are sorted by date:</p>
                         <pre id="private-example">
@@ -221,16 +246,64 @@
                                 curl -X GET https://notes.zoloto.cx.ua/api/profile -H 'Authorization: Token {token}'
                             </code>
                         </p>
-                        <p>
-                            Using username and password: <br>
-                            <code>curl --user {name}:{password} https://notes.zoloto.cx.ua/api/profile</code>
-                        </p>
                         <p>Or can be accessed in an opened
-                            <a href="/api/profile">logged session</a></p>
+                            <a href="/api/profile" target="_blank">logged session</a></p>
                         <hr>
                         <pre id="profile-example">
                             <!-- Example JSON is generated with JavaScript -->
                         </pre>
+                    </div>
+                </div>
+
+                <!-- Note POST PUT and DELETE example Card-->
+                <div class="card shadow mb-4 mw-100">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Note POST, PUT and DELETE requests</h6>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Note can be created using REST POST request: <br>
+                            <code>
+                                curl -d 'name=note title&public=false&favorite=false&completed=false&This note is
+                                created with POST' -X POST https://notes.zoloto.cx.ua/api/create -H 'Authorization:
+                                Token {token}'
+                            </code>
+
+                        </p>
+                        <p>Or can be accessed in an opened and edited using<a href="/api/create" target="_blank"> django
+                            REST
+                            frontEnd</a></p>
+                        <p>The note can be created by following fields:</p>
+                        <ul>
+                            <li><code>name</code></li>
+                            <li><code>public</code></li>
+                            <li><code>favorite</code></li>
+                            <li><code>competed</code></li>
+                            <li><code>body</code></li>
+                        </ul>
+                        <p>Other fields such as <code>id</code>, <code>date_created</code> and others are created
+                            automatically. <br>
+                            Note's body can contain HTML. <strong>ALL HTML IS
+                                <a href="https://en.wikipedia.org/wiki/HTML_sanitization#:~:text=HTML%20sanitization%20is%20the%20process,code%20submitted%20by%20a%20user."
+                                   target="_blank">SANITIZED</a></strong> using <a
+                                    href="https://pypi.org/project/bleach" target="_blank">bleach</a> library.</p>
+                        <hr>
+                        <p>Notes can be edited via PUT method: <br>
+                            <code>
+                                curl -X PUT -H -F 'name=New Title'
+                                https://notes.zoloto.cx.ua/api/private/{note_id}/edit -H 'Authorization:
+                                Token {token}'
+                            </code>
+                        </p>
+                        <hr>
+                        <p>And deleted via DELETE method: <br>
+                            <code>
+                                curl -X DELETE https://notes.zoloto.cx.ua/api/private/{note_id}/delete -H
+                                'Authorization:
+                                Token {token}'
+                            </code>
+
+                        </p>
                     </div>
                 </div>
             </div>
@@ -262,20 +335,22 @@
         let privateData = [
             {
                 "id": 1,
-                "user": "{{user.username}}",
                 "name": "note 1 title",
                 "date_created": "2021-09-09T22:34:23.910752Z",
                 "date_edited": "2021-09-14T04:52:47.542000Z",
-                "likes": 5,
-                "body": "<p>Your 1'st note body in html format</p>"
+                "public": true,
+                "favorite": false,
+                "complete": false,
+                "body": "<p>Your 1'st shared note body in html format</p>"
             }, {
                 "id": 2,
-                "user": "{{user.username}}",
                 "name": "note 2 title",
                 "date_created": "2021-09-09T22:34:23.910752Z",
                 "date_edited": "2021-09-13T04:52:47.542000Z",
-                "likes": 4,
-                "body": "<p>Your 2'nd note body in html format</p>"
+                "public": false,
+                "favorite": true,
+                "complete": false,
+                "body": "<p>Your 2'nd pinned note body in html format</p>"
             }
         ]
         let profileData = {

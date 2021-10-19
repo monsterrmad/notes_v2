@@ -1,4 +1,5 @@
 asgiref==3.4.1
+bleach==4.1.0
 certifi==2021.5.30
 charset-normalizer==2.0.4
 Django==3.2.7
@@ -6,7 +7,11 @@ django-jazzmin==2.4.8
 django-tinymce==3.3.0
 djangorestframework==3.12.4
 idna==3.2
+packaging==21.0
+pyparsing==2.4.7
 pytz==2021.1
 requests==2.26.0
+six==1.16.0
 sqlparse==0.4.2
 urllib3==1.26.6
+webencodings==0.5.1
