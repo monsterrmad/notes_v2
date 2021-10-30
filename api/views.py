@@ -109,6 +109,7 @@ class NoteCreateAPIView(CreateAPIView):
         serializer.validated_data["user"] = str(self.request.user)
 
         # sanitizes using bleach default tags, attributes, styles
+        allowed_tags = bleach.ALLOWED_TAGS + ["p"]
         serializer.validated_data["body"] = bleach.clean(
             serializer.validated_data["body"],
             tags=bleach.ALLOWED_TAGS,
