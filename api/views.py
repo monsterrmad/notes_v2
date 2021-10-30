@@ -112,7 +112,7 @@ class NoteCreateAPIView(CreateAPIView):
         allowed_tags = bleach.ALLOWED_TAGS + ["p"]
         serializer.validated_data["body"] = bleach.clean(
             serializer.validated_data["body"],
-            tags=bleach.ALLOWED_TAGS,
+            tags=allowed_tags,
             attributes=bleach.ALLOWED_ATTRIBUTES,
             styles=bleach.ALLOWED_STYLES,
             strip=False,
