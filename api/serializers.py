@@ -30,7 +30,7 @@ class NoteEditSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Note
-        fields = ["name", "public", "favorite", "completed", "body"]
+        fields = ["id", "name", "public", "favorite", "completed", "body"]
 
 
 class UserSerializer(serializers.ModelSerializer):
