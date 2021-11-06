@@ -31,6 +31,7 @@ class PublicNotesListAPIView(ListAPIView):
     """
     queryset = Note.objects.filter(public=True).order_by("-date_edited")
     serializer_class = PublicNoteSerializer
+    pagination_class = StandardResultsSetPagination
 
 
 class PublicNotesRetrieveAPIView(RetrieveAPIView):
