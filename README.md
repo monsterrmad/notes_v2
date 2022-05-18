@@ -11,7 +11,7 @@ Shared notes can be liked by the registered users.
 Homepage displays shared notes sorted by the [amount of likes](https://notes.zoloto.cx.ua/) or
  [creation date](https://notes.zoloto.cx.ua/?sort=date). Registration is not required to view public notes.
 
-Note creation and editing is provided with a rich text editor ([TinyMCE](https://pypi.org/project/django-tinymce/).\
+Note creation and editing is provided with a rich text editor [TinyMCE](https://pypi.org/project/django-tinymce/).\
 Note body contains html but it is always sanitized using [tinyMCE](https://pypi.org/project/django-tinymce/) (both during frontend and form validation) or
  [bleach](https://pypi.org/project/bleach/) library if the note is created by API.
 
