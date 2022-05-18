@@ -1,28 +1,28 @@
 # Notes
-## Django based web application to store and share notes
+## Django-based web application to create post and share notes
 ***
 https://notes.zoloto.cx.ua/
 ***
 
 Requires registration and login to create, edit and delete notes.
-All notes associate with an user.
-Every note can be shared thus making it accessible for everyone.
-Shared notes can be liked by registered users.
-Homepage displays shared notes sorted whether by the [amount of likes](https://notes.zoloto.cx.ua/) or
- [creation date](https://notes.zoloto.cx.ua/?sort=date). The registration is not required for viewing public notes.
+All notes are associated with a user.
+Every note can be shared thus making it accessible to everyone.
+Shared notes can be liked by the registered users.
+Homepage displays shared notes sorted by the [amount of likes](https://notes.zoloto.cx.ua/) or
+ [creation date](https://notes.zoloto.cx.ua/?sort=date). Registration is not required to view public notes.
 
-Note creation and editing is provided with a rich text editor (TinyMCE).\
-Note body contains html but it is always sanitized using tinyMCE (both during frontend and form validation) or
+Note creation and editing is provided with a rich text editor ([TinyMCE](https://pypi.org/project/django-tinymce/).\
+Note body contains html but it is always sanitized using [tinyMCE](https://pypi.org/project/django-tinymce/) (both during frontend and form validation) or
  [bleach](https://pypi.org/project/bleach/) library if the note is created by API.
 
 Supports all four [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) 
-[JSON](https://www.json.org/json-en.html) encoded API basic methods such as GET POST PUT and DELETE.\
+[JSON](https://www.json.org/json-en.html) encoded API methods such as GET POST PUT and DELETE.\
 more information with examples: https://notes.zoloto.cx.ua/api
 
-Public notes accessed via api do not require authentication, private on the other hand can be accessed via
+Public notes are accessed via an API and do not require authentication; private, on the other hand, can be accessed via
  [Session](https://www.django-rest-framework.org/api-guide/authentication/#sessionauthentication) or 
 [Token](https://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication) authentication.\
-Token can be generated in [profile](https://notes.zoloto.cx.ua/profile) page.
+Token can be generated on the [profile](https://notes.zoloto.cx.ua/profile) page.
 ***
 
 Web application consists of:
