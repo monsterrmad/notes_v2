@@ -1,5 +1,5 @@
 # Notes
-## Django-based web application to create post and share notes
+## [Django-based](https://www.djangoproject.com/) web application to create post and share notes
 ***
 https://notes.zoloto.cx.ua/
 ***
