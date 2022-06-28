@@ -3,7 +3,7 @@
 ***
 https://notes.zoloto.cx.ua/
 ***
-
+Brand new method of saving information online.
 Requires registration and login to create, edit and delete notes.
 All notes are associated with a user.
 Every note can be shared thus making it accessible to everyone.
